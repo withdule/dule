@@ -35,6 +35,10 @@ ion-label ion-progress-bar {
     color: var(--ion-color-tertiary);
 }
 
+.ion-color-danger {
+    color: var(--ion-color-danger);
+}
+
 input {
     caret-color: var(--ion-color-primary) !important;
 }
@@ -52,16 +56,6 @@ input {
 
     margin-bottom: -7px;
     margin-top: 12px;
-}
-
-.list-title.listGroup {
-    margin: auto 16px;
-
-    margin-top: 15px;
-    margin-bottom: 10px;
-
-    font-size: 0.85rem;
-    opacity: 0.3;
 }
 
 /* Dark colors */

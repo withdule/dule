@@ -10,7 +10,7 @@
         <ion-item>
           <DuleFaceIcon slot="start" />
           <ion-label>
-            <h2>Hey, <span>Armand</span></h2>
+            <h2>Hello, <span>Armand</span></h2>
             <p>What are you doing today ?</p>
           </ion-label>
           <ion-button fill="clear" slot="end" @click="createModal(UserModal, 'modalUser', refs)">
@@ -23,11 +23,33 @@
       </div>
       <ion-list inset>
         <ion-item>
-          <ClipboardList slot="start" class="icon-icon ion-color-warning"/>
+          <ClipboardList slot="start" class="icon-icon ion-color-tertiary"/>
           <ion-label>
             <p>Tasks</p>
             <h2>1 / 2</h2>
-            <ion-progress-bar color="warning" :value="1 / 2"></ion-progress-bar>
+            <ion-progress-bar color="tertiary" :value="1 / 2"></ion-progress-bar>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ClipboardList slot="start" class="icon-icon ion-color-warning"/>
+          <ion-label>
+            <p>Release Dule</p>
+            <h2>0 / 2</h2>
+            <ion-progress-bar color="warning" :value="0 / 2"></ion-progress-bar>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <CalendarClock slot="start" class="icon-icon ion-color-danger"/>
+          <ion-label>
+            <p>in 2 hours</p>
+            <h2>Meeting with contributors</h2>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <AlarmClock slot="start" class="icon-icon ion-color-danger"/>
+          <ion-label>
+            <p>in 3 hours</p>
+            <h2>Turn on washing machine</h2>
           </ion-label>
         </ion-item>
       </ion-list>
@@ -104,10 +126,17 @@
       </div>
       <ion-list inset>
         <ion-item button>
+          <CheckCircle2 slot="start" class="icon-icon"/>
+          <ion-label>
+            <p>Plan your day tasks</p>
+            <h2>Write a new task</h2>
+          </ion-label>
+        </ion-item>
+        <ion-item button>
           <ListPlus slot="start" class="icon-icon"/>
           <ion-label>
             <p>Start a new objective</p>
-            <h2>Create an new tasklist</h2>
+            <h2>Create a new tasklist</h2>
           </ion-label>
         </ion-item>
         <ion-item button @click="goTo('/dash/tasks')">
@@ -115,6 +144,26 @@
           <ion-label>
             <p>Work</p>
             <h2>View tasklists</h2>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+
+      <div class="list-title">
+        Informations
+      </div>
+      <ion-list inset>
+        <ion-item button @click="createModal(InfoModal, 'modalInfo', refs)">
+          <Info slot="start" class="icon-icon"/>
+          <ion-label>
+            <p>Understand Dule</p>
+            <h2>Informations</h2>
+          </ion-label>
+        </ion-item>
+        <ion-item button @click="open('https://github.com/withdule/dule')">
+          <Github slot="start" class="icon-icon"/>
+          <ion-label>
+            <p>Star us on github !</p>
+            <h2>Github</h2>
           </ion-label>
         </ion-item>
       </ion-list>
@@ -150,10 +199,11 @@
 <script setup lang="ts">
 import '@/theme/globals.css'
 import { IonPage, IonHeader, IonToolbar, IonContent, IonTitle } from '@ionic/vue';
-import { MoreVertical, AlertTriangle, LogIn, UserPlus, ClipboardList, CalendarPlus, AlarmPlus, CalendarCheck, CheckSquare, BookMarked, Glasses, ListPlus, PenLine } from "lucide-vue-next";
+import { MoreVertical, AlertTriangle, LogIn, UserPlus, ClipboardList, CalendarPlus, AlarmPlus, CalendarCheck, CheckSquare, BookMarked, Glasses, ListPlus, PenLine, CalendarClock, AlarmClock, CheckCircle2, Info, Github } from "lucide-vue-next";
 import LoginModal from "@/components/LoginModal.vue";
 import RegisterModal from "@/components/RegisterModal.vue";
 import DuleFaceIcon from "@/components/DuleFaceIcon.vue";
+import InfoModal from "@/components/InfoModal.vue";
 </script>
 
 <script lang="ts">
@@ -164,6 +214,11 @@ const loggedIn = ref(false)
 let refs = {
   modalLogin: ref(null),
   modalRegister: ref(null),
+  modalInfo: ref(null),
+  modalNewTask: ref(null),
+  modalNewTasklist: ref(null),
+  modalNewEvent: ref(null),
+  modalNewReminder: ref(null),
   modalUser: ref(null)
 } as any
 
