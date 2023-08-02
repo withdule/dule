@@ -1,0 +1,87 @@
+ion-content {
+    --background: #e6ece6;
+}
+
+ion-button[expand=full] {
+    margin-inline-start: 16px;
+    margin-inline-end: 16px;
+}
+
+ion-button[expand=full]::part(native) {
+    border-radius: 7px;
+}
+
+router-link, a {
+    text-decoration: none;
+}
+
+ion-list {
+    border-radius: 7px;
+}
+
+ion-label ion-progress-bar {
+    margin-top: 9px;
+}
+
+.ion-color-warning {
+    color: var(--ion-color-warning);
+}
+
+.ion-color-success {
+    color: var(--ion-color-success);
+}
+
+.ion-color-tertiary {
+    color: var(--ion-color-tertiary);
+}
+
+input {
+    caret-color: var(--ion-color-primary) !important;
+}
+
+.list-title * {
+    margin: 0;
+}
+
+.list-title {
+    font-size: 1rem;
+    font-weight: 400;
+
+    margin: auto 30px;
+    opacity: 0.5;
+
+    margin-bottom: -7px;
+    margin-top: 12px;
+}
+
+.list-title.listGroup {
+    margin: auto 16px;
+
+    margin-top: 15px;
+    margin-bottom: 10px;
+
+    font-size: 0.85rem;
+    opacity: 0.3;
+}
+
+/* Dark colors */
+
+body.dark .inset-background, .inset-background ion-toolbar {
+    --background: #000000;
+}
+
+body.dark ion-item {
+    --ion-item-background: #1A211C;
+}
+
+body.dark ion-modal .inset-background, ion-modal .inset-background ion-toolbar {
+    --background: #141414;
+}
+
+body.dark ion-modal ion-item {
+    --ion-item-background: #212121;
+}
+
+body.dark ion-content {
+    --background: #1A211C;
+}

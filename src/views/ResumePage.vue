@@ -1,0 +1,196 @@
+<template>
+  <ion-page ref="page">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Resume</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content :fullscreen="true" v-if="loggedIn">
+      <ion-list inset>
+        <ion-item>
+          <DuleFaceIcon slot="start" />
+          <ion-label>
+            <h2>Hey, <span>Armand</span></h2>
+            <p>What are you doing today ?</p>
+          </ion-label>
+          <ion-button fill="clear" slot="end" @click="createModal(UserModal, 'modalUser', refs)">
+            <MoreVertical slot="icon-only" />
+          </ion-button>
+        </ion-item>
+      </ion-list>
+      <div class="list-title">
+        Today
+      </div>
+      <ion-list inset>
+        <ion-item>
+          <ClipboardList slot="start" class="icon-icon ion-color-warning"/>
+          <ion-label>
+            <p>Tasks</p>
+            <h2>1 / 2</h2>
+            <ion-progress-bar color="warning" :value="1 / 2"></ion-progress-bar>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+
+      <div class="list-title">
+        Stats
+      </div>
+      <ion-list inset>
+        <ion-item>
+          <CheckSquare slot="start" class="icon-icon ion-color-tertiary"/>
+          <ion-label>
+            <p>Tasks completed</p>
+            <h2>50</h2>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <BookMarked slot="start" class="icon-icon ion-color-tertiary"/>
+          <ion-label>
+            <p>Notes taken</p>
+            <h2>32</h2>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <CalendarCheck slot="start" class="icon-icon ion-color-tertiary"/>
+          <ion-label>
+            <p>Event scheduled</p>
+            <h2>8</h2>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+
+      <div class="list-title">
+        Schedule
+      </div>
+      <ion-list inset>
+        <ion-item button>
+          <CalendarPlus slot="start" class="icon-icon"/>
+          <ion-label>
+            <p>Event</p>
+            <h2>Create an event</h2>
+          </ion-label>
+        </ion-item>
+        <ion-item button>
+          <AlarmPlus slot="start" class="icon-icon"/>
+          <ion-label>
+            <p>Reminder</p>
+            <h2>Create a reminder</h2>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+
+      <div class="list-title">
+        Note
+      </div>
+      <ion-list inset>
+        <ion-item button>
+          <PenLine slot="start" class="icon-icon"/>
+          <ion-label>
+            <p>Start writing</p>
+            <h2>Create an new note</h2>
+          </ion-label>
+        </ion-item>
+        <ion-item button @click="goTo('/dash/notes')">
+          <Glasses slot="start" class="icon-icon"/>
+          <ion-label>
+            <p>Read</p>
+            <h2>View notes</h2>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+
+      <div class="list-title">
+        Tasks
+      </div>
+      <ion-list inset>
+        <ion-item button>
+          <ListPlus slot="start" class="icon-icon"/>
+          <ion-label>
+            <p>Start a new objective</p>
+            <h2>Create an new tasklist</h2>
+          </ion-label>
+        </ion-item>
+        <ion-item button @click="goTo('/dash/tasks')">
+          <Glasses slot="start" class="icon-icon"/>
+          <ion-label>
+            <p>Work</p>
+            <h2>View tasklists</h2>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+
+    <ion-content v-else :fullscreen="true">
+      <ion-list inset>
+        <ion-item>
+          <AlertTriangle class="icon ion-color-warning" slot="start" />
+          <ion-label class="ion-text-wrap">
+            <h2>Your are not logged in</h2>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-list inset>
+        <ion-item button @click="createModal(LoginModal, 'modalLogin', refs, () => { loggedIn = true })">
+          <LogIn class="ion-icon ion-color-success" slot="start"/>
+          <ion-label class="ion-text-wrap">
+            <h2>Login</h2>
+          </ion-label>
+        </ion-item>
+        <ion-item button @click="createModal(RegisterModal, 'modalRegister', refs)">
+          <UserPlus class="ion-icon" slot="start"/>
+          <ion-label class="ion-text-wrap">
+            <h2>Create an account</h2>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-page>
+</template>
+
+<script setup lang="ts">
+import '@/theme/globals.css'
+import { IonPage, IonHeader, IonToolbar, IonContent, IonTitle } from '@ionic/vue';
+import { MoreVertical, AlertTriangle, LogIn, UserPlus, ClipboardList, CalendarPlus, AlarmPlus, CalendarCheck, CheckSquare, BookMarked, Glasses, ListPlus, PenLine } from "lucide-vue-next";
+import LoginModal from "@/components/LoginModal.vue";
+import RegisterModal from "@/components/RegisterModal.vue";
+import DuleFaceIcon from "@/components/DuleFaceIcon.vue";
+</script>
+
+<script lang="ts">
+import { ref } from "vue";
+import { createModal } from "@/functions/modals";
+
+const loggedIn = ref(false)
+let refs = {
+  modalLogin: ref(null),
+  modalRegister: ref(null),
+  modalUser: ref(null)
+} as any
+
+window.addEventListener('closeModals', () => {
+  Object.keys(refs).forEach(key => {
+    if (refs[key].value) refs[key].value.dismiss()
+  })
+})
+
+export default {
+  data () {
+    return {
+      loggedIn: loggedIn,
+      refs: refs
+    }
+  },
+  mounted() {
+    refs['page'] = this.$refs.page
+  },
+  methods: {
+    open(url: string) {
+      window.open(url)
+    },
+    goTo(href: string) {
+      this.$router.push(href)
+    },
+    createModal
+  },
+}
+</script>
