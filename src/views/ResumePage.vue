@@ -85,14 +85,14 @@
         Schedule
       </div>
       <ion-list inset>
-        <ion-item button>
+        <ion-item button @click="createModal(NewEventModal, 'modalNewEvent', refs)">
           <CalendarPlus slot="start" class="icon-icon"/>
           <ion-label>
             <p>Event</p>
             <h2>Create an event</h2>
           </ion-label>
         </ion-item>
-        <ion-item button>
+        <ion-item button @click="createModal(NewReminderModal, 'modalNewReminder', refs)">
           <AlarmPlus slot="start" class="icon-icon"/>
           <ion-label>
             <p>Reminder</p>
@@ -204,6 +204,8 @@ import LoginModal from "@/components/LoginModal.vue";
 import RegisterModal from "@/components/RegisterModal.vue";
 import DuleFaceIcon from "@/components/DuleFaceIcon.vue";
 import InfoModal from "@/components/InfoModal.vue";
+import NewEventModal from "@/components/NewEventModal.vue";
+import NewReminderModal from "@/components/NewReminderModal.vue";
 </script>
 
 <script lang="ts">

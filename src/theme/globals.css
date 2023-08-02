@@ -2,6 +2,10 @@ ion-content {
     --background: #e6ece6;
 }
 
+ion-datetime::part(native), ion-datetime-button::part(native) {
+    background: var(--ion-item-background, var(--ion-background-color, #fff));
+}
+
 ion-button[expand=full] {
     margin-inline-start: 16px;
     margin-inline-end: 16px;
