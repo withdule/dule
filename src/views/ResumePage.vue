@@ -10,7 +10,7 @@
         <ion-item>
           <DuleFaceIcon slot="start" />
           <ion-label>
-            <h2>Hello, <span>Armand</span></h2>
+            <h2>Hello, <span>{{ user.fullname }}</span></h2>
             <p>What are you doing today ?</p>
           </ion-label>
           <ion-button fill="clear" slot="end" @click="createModal(UserModal, 'modalUser', refs)">
@@ -71,14 +71,14 @@
         Schedule
       </div>
       <ion-list inset>
-        <ion-item button @click="createModal(NewEventModal, 'modalNewEvent', refs, null)">
+        <ion-item button @click="createModal(NewEventModal, 'modalNewEvent', refs)">
           <CalendarPlus slot="start" class="icon-icon"/>
           <ion-label>
             <p>Event</p>
             <h2>Create an event</h2>
           </ion-label>
         </ion-item>
-        <ion-item button @click="createModal(NewReminderModal, 'modalNewReminder', refs, null)">
+        <ion-item button @click="createModal(NewReminderModal, 'modalNewReminder', refs)">
           <AlarmPlus slot="start" class="icon-icon"/>
           <ion-label>
             <p>Reminder</p>
@@ -91,7 +91,7 @@
         Note
       </div>
       <ion-list inset>
-        <ion-item button @click="createModal(NewNoteModal, 'modalNewNote', refs, null)">
+        <ion-item button @click="createModal(NewNoteModal, 'modalNewNote', refs)">
           <PenLine slot="start" class="icon-icon"/>
           <ion-label>
             <p>Start writing</p>
@@ -111,14 +111,14 @@
         Tasks
       </div>
       <ion-list inset>
-        <ion-item button @click="createModal(NewTaskModal, 'modalNewTask', refs, null)">
+        <ion-item button @click="createModal(NewTaskModal, 'modalNewTask', refs)">
           <CheckCircle2 slot="start" class="icon-icon"/>
           <ion-label>
             <p>Plan your day tasks</p>
             <h2>Write a new task</h2>
           </ion-label>
         </ion-item>
-        <ion-item button @click="createModal(NewTaskListModal, 'modalNewTasklist', refs, null)">
+        <ion-item button @click="createModal(NewTaskListModal, 'modalNewTasklist', refs)">
           <ListPlus slot="start" class="icon-icon"/>
           <ion-label>
             <p>Start a new objective</p>
@@ -138,7 +138,7 @@
         Informations
       </div>
       <ion-list inset>
-        <ion-item button @click="createModal(InfoModal, 'modalInfo', refs, null)">
+        <ion-item button @click="createModal(InfoModal, 'modalInfo', refs)">
           <Info slot="start" class="icon-icon"/>
           <ion-label>
             <p>Understand Dule</p>
@@ -165,13 +165,13 @@
         </ion-item>
       </ion-list>
       <ion-list inset>
-        <ion-item button @click="createModal(LoginModal, 'modalLogin', refs, () => { loggedIn = true })">
+        <ion-item button @click="createModal(LoginModal, 'modalLogin', refs)">
           <LogIn class="ion-icon ion-color-success" slot="start"/>
           <ion-label class="ion-text-wrap">
             <h2>Login</h2>
           </ion-label>
         </ion-item>
-        <ion-item button @click="createModal(RegisterModal, 'modalRegister', refs, null)">
+        <ion-item button @click="createModal(RegisterModal, 'modalRegister', refs)">
           <UserPlus class="ion-icon" slot="start"/>
           <ion-label class="ion-text-wrap">
             <h2>Create an account</h2>
@@ -184,7 +184,7 @@
 
 <script setup lang="ts">
 import '@/theme/globals.css'
-import { IonPage, IonHeader, IonToolbar, IonContent, IonTitle } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonContent, IonTitle, IonList, IonLabel, IonButton, IonProgressBar, IonItem } from '@ionic/vue';
 import { MoreVertical, AlertTriangle, LogIn, UserPlus, ClipboardList, CalendarPlus, AlarmPlus, Glasses, ListPlus, PenLine, CalendarClock, AlarmClock, CheckCircle2, Info, Github, StickyNote } from "lucide-vue-next";
 import LoginModal from "@/components/LoginModal.vue";
 import RegisterModal from "@/components/RegisterModal.vue";
@@ -201,8 +201,8 @@ import UserModal from "@/components/UserModal.vue";
 <script lang="ts">
 import { ref } from "vue";
 import { createModal } from "@/functions/modals";
+import {getAccount} from "@/functions/fetch/account";
 
-const loggedIn = ref(false)
 let refs = {
   modalLogin: ref(null),
   modalRegister: ref(null),
@@ -224,12 +224,21 @@ window.addEventListener('closeModals', () => {
 export default {
   data () {
     return {
-      loggedIn: loggedIn,
-      refs: refs
+      loggedIn: false,
+      refs: refs,
+      user: {
+        fullname: "",
+        email: "",
+        createdAt: ""
+      }
     }
   },
   mounted() {
     refs['page'] = this.$refs.page
+    if (localStorage.getItem('userToken') && localStorage.getItem('userCredentials')) {
+      this.loggedIn = true
+      getAccount().then(user => this.user = user)
+    }
   },
   methods: {
     open(url: string) {

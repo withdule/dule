@@ -14,8 +14,8 @@
       <ion-item>
         <DuleFaceIcon slot="start" class="ion-color-tertiary"/>
         <ion-label>
-          <h2><span>Armand</span></h2>
-          <p>armand@camponovo.xyz</p>
+          <h2><span>{{ user.fullname }}</span></h2>
+          <p>{{ user.email }}</p>
         </ion-label>
         <Cog slot="end"/>
       </ion-item>
@@ -24,7 +24,13 @@
           <p>Registered since</p>
         </ion-label>
         <ion-label slot="end">
-          <h2>20/12/23</h2>
+          <h2>{{ user.createdAt }}</h2>
+        </ion-label>
+      </ion-item>
+      <ion-item button @click="disconnectAccount()">
+        <LogOut slot="start" class="ion-icon ion-color-danger"/>
+        <ion-label>
+          <p>Logout</p>
         </ion-label>
       </ion-item>
     </ion-list>
@@ -60,36 +66,33 @@
 
 <script setup lang="ts">
 import { IonTitle } from "@ionic/vue";
-import {XCircle, Cog, BookMarked, CalendarCheck, CheckSquare} from "lucide-vue-next";
+import {XCircle, Cog, BookMarked, CalendarCheck, CheckSquare, LogOut} from "lucide-vue-next";
 import DuleFaceIcon from "@/components/DuleFaceIcon.vue";
 </script>
 
 <script lang="ts">
-import {closeModals, createModal} from "@/functions/modals";
-import {ref} from "vue";
-import EditAccountModal from "@/components/EditAccountModal.vue";
-
-let refs = {
-  modalEditAccount: ref(null),
-}
+import {closeModals} from "@/functions/modals";
+import {getAccount, logOut} from "@/functions/fetch/account";
 
 export default {
-  methods: {
-    data() {
-      return {
+  data () {
+    return {
+      user: {
+        fullname: "",
         email: "",
-        password: ""
+        createdAt: "",
       }
-    },
-    login () {
-      localStorage.setItem('userCredentials', JSON.stringify({
-        email: this.emailInput,
-        passwordInput: this.passwordInput
-      }))
-      console.log(this.emailInput)
-      closeModals()
-    },
-    closeModals
+    }
+  },
+  created () {
+    getAccount().then(user => this.user = user)
+  },
+  methods: {
+    closeModals,
+    disconnectAccount() {
+      logOut()
+      location.reload()
+    }
   }
 }
 </script>

@@ -39,6 +39,8 @@ import { XCircle } from "lucide-vue-next";
 
 <script lang="ts">
 import { closeModals } from "@/functions/modals";
+import {getToken} from "@/functions/fetch/account";
+import {displayToast} from "@/functions/toasts";
 
 export default {
   methods: {
@@ -48,13 +50,17 @@ export default {
         password: ""
       }
     },
-    login () {
-      localStorage.setItem('userCredentials', JSON.stringify({
-        email: this.emailInput,
-        passwordInput: this.passwordInput
-      }))
-      console.log(this.emailInput)
-      closeModals()
+    async login () {
+      const token = await getToken(this.email, this.password)
+      if (token) {
+        localStorage.setItem('userCredentials', JSON.stringify({
+          email: this.email,
+          password: this.password
+        }))
+        localStorage.setItem('userToken', token)
+        await displayToast('Connected', 'Authenticated successfully', 2000, 'primary')
+        setTimeout(location.reload, 2000)
+      }
     },
     closeModals
   }
