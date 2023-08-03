@@ -31,23 +31,23 @@ ion-label ion-progress-bar {
     margin-top: 8px;
 }
 
-.ion-color-warning {
+.ion-color-warning :not(.toast-header, .toast-message) {
     color: var(--ion-color-warning);
 }
 
-.ion-color-success {
+.ion-color-success :not(.toast-header, .toast-message) {
     color: var(--ion-color-success);
 }
 
-.ion-color-tertiary {
+.ion-color-tertiary :not(.toast-header, .toast-message) {
     color: var(--ion-color-tertiary);
 }
 
-.ion-color-danger {
+.ion-color-danger :not(.toast-header, .toast-message) {
     color: var(--ion-color-danger);
 }
 
-.ion-color-medium {
+.ion-color-medium :not(.toast-header, .toast-message) {
     color: var(--ion-color-medium);
 }
 
