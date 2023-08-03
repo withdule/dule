@@ -71,14 +71,14 @@
         Schedule
       </div>
       <ion-list inset>
-        <ion-item button @click="createModal(NewEventModal, 'modalNewEvent', refs)">
+        <ion-item button @click="createModal(NewEventModal, 'modalNewEvent', refs, null)">
           <CalendarPlus slot="start" class="icon-icon"/>
           <ion-label>
             <p>Event</p>
             <h2>Create an event</h2>
           </ion-label>
         </ion-item>
-        <ion-item button @click="createModal(NewReminderModal, 'modalNewReminder', refs)">
+        <ion-item button @click="createModal(NewReminderModal, 'modalNewReminder', refs, null)">
           <AlarmPlus slot="start" class="icon-icon"/>
           <ion-label>
             <p>Reminder</p>
@@ -91,7 +91,7 @@
         Note
       </div>
       <ion-list inset>
-        <ion-item button @click="createModal(NewNoteModal, 'modalNewNote', refs)">
+        <ion-item button @click="createModal(NewNoteModal, 'modalNewNote', refs, null)">
           <PenLine slot="start" class="icon-icon"/>
           <ion-label>
             <p>Start writing</p>
@@ -111,14 +111,14 @@
         Tasks
       </div>
       <ion-list inset>
-        <ion-item button @click="createModal(NewTaskModal, 'modalNewTask', refs)">
+        <ion-item button @click="createModal(NewTaskModal, 'modalNewTask', refs, null)">
           <CheckCircle2 slot="start" class="icon-icon"/>
           <ion-label>
             <p>Plan your day tasks</p>
             <h2>Write a new task</h2>
           </ion-label>
         </ion-item>
-        <ion-item button @click="createModal(NewTaskListModal, 'modalNewTasklist', refs)">
+        <ion-item button @click="createModal(NewTaskListModal, 'modalNewTasklist', refs, null)">
           <ListPlus slot="start" class="icon-icon"/>
           <ion-label>
             <p>Start a new objective</p>
@@ -138,7 +138,7 @@
         Informations
       </div>
       <ion-list inset>
-        <ion-item button @click="createModal(InfoModal, 'modalInfo', refs)">
+        <ion-item button @click="createModal(InfoModal, 'modalInfo', refs, null)">
           <Info slot="start" class="icon-icon"/>
           <ion-label>
             <p>Understand Dule</p>
@@ -171,7 +171,7 @@
             <h2>Login</h2>
           </ion-label>
         </ion-item>
-        <ion-item button @click="createModal(RegisterModal, 'modalRegister', refs)">
+        <ion-item button @click="createModal(RegisterModal, 'modalRegister', refs, null)">
           <UserPlus class="ion-icon" slot="start"/>
           <ion-label class="ion-text-wrap">
             <h2>Create an account</h2>
