@@ -1,8 +1,9 @@
 <template>
   <ion-header>
     <ion-toolbar>
-      <ion-title>Login</ion-title>
+      <ion-title>Modify your profile</ion-title>
       <ion-buttons slot="end">
+        <ion-back-button></ion-back-button>
         <ion-button color="medium" @click="closeModals()">
           <XCircle/>
         </ion-button>
@@ -15,17 +16,17 @@
 
       <ion-list inset>
         <ion-item>
-          <ion-input required color="primary" :value="email" @input="email = $event.target.value" type="email" placeholder="me@dule.com"></ion-input>
+          <ion-input required color="primary" :value="name" @input="name = $event.target.value" type="text" placeholder="John"></ion-input>
         </ion-item>
       </ion-list>
 
       <ion-list inset>
         <ion-item>
-          <ion-input required :value="password" @input="password = $event.target.value" type="password" placeholder="*******"></ion-input>
+          <ion-input required color="primary" :value="email" @input="email = $event.target.value" type="email" placeholder="john@dule.com"></ion-input>
         </ion-item>
       </ion-list>
 
-      <ion-button expand="full" type="button" @click="login()">Login</ion-button>
+      <ion-button expand="full" type="button" @click="editAccount()">Save</ion-button>
 
     </form>
 
@@ -33,30 +34,27 @@
 </template>
 
 <script setup lang="ts">
-import { IonTitle } from "@ionic/vue";
+import { IonTitle, IonBackButton } from "@ionic/vue";
 import { XCircle } from "lucide-vue-next";
 </script>
 
 <script lang="ts">
 import { closeModals } from "@/functions/modals";
 
+
 export default {
   methods: {
-    data() {
-      return {
-        email: "",
-        password: ""
-      }
-    },
-    login () {
-      localStorage.setItem('userCredentials', JSON.stringify({
-        email: this.emailInput,
-        passwordInput: this.passwordInput
-      }))
-      console.log(this.emailInput)
+    editAccount () {
+      console.log(this.name)
       closeModals()
     },
     closeModals
+  },
+  data() {
+    return {
+      name: "",
+      email: ""
+    }
   }
 }
 </script>

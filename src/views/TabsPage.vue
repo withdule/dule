@@ -2,7 +2,7 @@
   <ion-page>
     <ion-tabs>
       <ion-router-outlet></ion-router-outlet>
-      <ion-tab-bar slot="bottom">
+      <ion-tab-bar v-if="loggedIn" slot="bottom">
         <ion-tab-button tab="home" href="/dash/resume">
           <ResumeIcon class="icon"/>
           <ion-label>Resume</ion-label>
@@ -28,14 +28,27 @@
 </template>
 
 <script setup lang="ts">
-import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { ellipse, square, triangle } from 'ionicons/icons';
+import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonPage, IonRouterOutlet } from '@ionic/vue';
 import {
     CalendarRange as CalendarIcon,
     ListChecks as TasksIcon,
     Sticker as NotesIcon,
     Newspaper as ResumeIcon
 } from "lucide-vue-next";
+</script>
+
+<script lang="ts">
+
+export default {
+  data() {
+    return {
+      loggedIn: localStorage.getItem('userCredentials')
+    }
+  },
+  beforeUpdate() {
+    this.loggedIn = localStorage.getItem('userCredentials')
+  }
+}
 </script>
 
 <style>

@@ -24,7 +24,7 @@ ion-list {
 }
 
 ion-label ion-progress-bar {
-    margin-top: 9px;
+    margin-top: 8px;
 }
 
 .ion-color-warning {
@@ -41,6 +41,10 @@ ion-label ion-progress-bar {
 
 .ion-color-danger {
     color: var(--ion-color-danger);
+}
+
+.ion-color-medium {
+    color: var(--ion-color-medium);
 }
 
 input {

@@ -15,7 +15,7 @@
 
       <ion-list inset>
         <ion-item>
-          <ion-input color="primary" @ionChange="name = $event.detail.value" type="text" placeholder="Turn on washing machine"></ion-input>
+          <ion-input color="primary" :value="name" @input="name = $event.target.value" type="text" placeholder="Turn on washing machine"></ion-input>
         </ion-item>
       </ion-list>
 
@@ -28,7 +28,7 @@
         </ion-item>
       </ion-list>
       <ion-modal :keep-contents-mounted="true">
-        <ion-datetime mode="ios" :model-value="date"  @ionChange="alert(date.value)" :min="minStartDate.toISOString()" :hour-values="minStartsDateHoursSelection" :minute-values="minStartsDateMinutesSelection" id="datetime-start"></ion-datetime>
+        <ion-datetime mode="ios" :value="date" @ionChange="date = $event.detail.value" :hour-values="minStartsDateHoursSelection" :minute-values="minStartsDateMinutesSelection" id="datetime-start"></ion-datetime>
       </ion-modal>
 
       <ion-button expand="full" type="button" @click="addReminder()">Add</ion-button>
@@ -44,7 +44,6 @@ import { XCircle } from "lucide-vue-next";
 </script>
 
 <script lang="ts">
-import { ref } from "vue"
 import { closeModals } from "@/functions/modals"
 import { IonDatetime } from "@ionic/vue"
 
@@ -53,18 +52,15 @@ const minStartDate = new Date()
 const minutesSelection = Array.from(Array(60).keys())
 const minStartsDateMinutesSelection = minutesSelection.slice(minStartDate.getMinutes(), minutesSelection.length)
 
-const hoursSelection = Array.from(Array(60).keys())
+const hoursSelection = Array.from(Array(24).keys())
 const minStartsDateHoursSelection = hoursSelection.slice(minStartDate.getHours(), hoursSelection.length)
 
-
-const name = ref(null) as string
-const date = ref(null) as Date
 
 export default {
   data() {
     return {
-      name: name,
-      date: date,
+      name: "",
+      date: new Date().toISOString(),
       minStartDate: minStartDate,
       minStartsDateMinutesSelection: minStartsDateMinutesSelection,
       minStartsDateHoursSelection: minStartsDateHoursSelection,
@@ -72,7 +68,7 @@ export default {
   },
   methods: {
     addReminder () {
-      console.log(name, date)
+      console.log(this.name, this.date)
     },
     closeModals
   },

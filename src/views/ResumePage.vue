@@ -23,22 +23,6 @@
       </div>
       <ion-list inset>
         <ion-item>
-          <ClipboardList slot="start" class="icon-icon ion-color-tertiary"/>
-          <ion-label>
-            <p>Tasks</p>
-            <h2>1 / 2</h2>
-            <ion-progress-bar color="tertiary" :value="1 / 2"></ion-progress-bar>
-          </ion-label>
-        </ion-item>
-        <ion-item>
-          <ClipboardList slot="start" class="icon-icon ion-color-warning"/>
-          <ion-label>
-            <p>Release Dule</p>
-            <h2>0 / 2</h2>
-            <ion-progress-bar color="warning" :value="0 / 2"></ion-progress-bar>
-          </ion-label>
-        </ion-item>
-        <ion-item>
           <CalendarClock slot="start" class="icon-icon ion-color-danger"/>
           <ion-label>
             <p>in 2 hours</p>
@@ -55,28 +39,30 @@
       </ion-list>
 
       <div class="list-title">
-        Stats
+        Recently edited
       </div>
       <ion-list inset>
-        <ion-item>
-          <CheckSquare slot="start" class="icon-icon ion-color-tertiary"/>
+        <ion-item button>
+          <ClipboardList slot="start" class="icon-icon ion-color-tertiary"/>
           <ion-label>
-            <p>Tasks completed</p>
-            <h2>50</h2>
+            <p>Tasks</p>
+            <h2>1 / 2</h2>
+            <ion-progress-bar color="tertiary" :value="1 / 2"></ion-progress-bar>
           </ion-label>
         </ion-item>
-        <ion-item>
-          <BookMarked slot="start" class="icon-icon ion-color-tertiary"/>
+        <ion-item button>
+          <ClipboardList slot="start" class="icon-icon ion-color-warning"/>
           <ion-label>
-            <p>Notes taken</p>
-            <h2>32</h2>
+            <p>Release Dule</p>
+            <h2>0 / 2</h2>
+            <ion-progress-bar color="warning" :value="0 / 2"></ion-progress-bar>
           </ion-label>
         </ion-item>
-        <ion-item>
-          <CalendarCheck slot="start" class="icon-icon ion-color-tertiary"/>
+        <ion-item button>
+          <StickyNote slot="start" class="icon-icon"/>
           <ion-label>
-            <p>Event scheduled</p>
-            <h2>8</h2>
+            <p>Note</p>
+            <h2>Films to watch</h2>
           </ion-label>
         </ion-item>
       </ion-list>
@@ -105,7 +91,7 @@
         Note
       </div>
       <ion-list inset>
-        <ion-item button>
+        <ion-item button @click="createModal(NewNoteModal, 'modalNewNote', refs)">
           <PenLine slot="start" class="icon-icon"/>
           <ion-label>
             <p>Start writing</p>
@@ -125,14 +111,14 @@
         Tasks
       </div>
       <ion-list inset>
-        <ion-item button>
+        <ion-item button @click="createModal(NewTaskModal, 'modalNewTask', refs)">
           <CheckCircle2 slot="start" class="icon-icon"/>
           <ion-label>
             <p>Plan your day tasks</p>
             <h2>Write a new task</h2>
           </ion-label>
         </ion-item>
-        <ion-item button>
+        <ion-item button @click="createModal(NewTaskListModal, 'modalNewTasklist', refs)">
           <ListPlus slot="start" class="icon-icon"/>
           <ion-label>
             <p>Start a new objective</p>
@@ -199,13 +185,17 @@
 <script setup lang="ts">
 import '@/theme/globals.css'
 import { IonPage, IonHeader, IonToolbar, IonContent, IonTitle } from '@ionic/vue';
-import { MoreVertical, AlertTriangle, LogIn, UserPlus, ClipboardList, CalendarPlus, AlarmPlus, CalendarCheck, CheckSquare, BookMarked, Glasses, ListPlus, PenLine, CalendarClock, AlarmClock, CheckCircle2, Info, Github } from "lucide-vue-next";
+import { MoreVertical, AlertTriangle, LogIn, UserPlus, ClipboardList, CalendarPlus, AlarmPlus, Glasses, ListPlus, PenLine, CalendarClock, AlarmClock, CheckCircle2, Info, Github, StickyNote } from "lucide-vue-next";
 import LoginModal from "@/components/LoginModal.vue";
 import RegisterModal from "@/components/RegisterModal.vue";
 import DuleFaceIcon from "@/components/DuleFaceIcon.vue";
 import InfoModal from "@/components/InfoModal.vue";
 import NewEventModal from "@/components/NewEventModal.vue";
 import NewReminderModal from "@/components/NewReminderModal.vue";
+import NewNoteModal from "@/components/NewNoteModal.vue";
+import NewTaskModal from "@/components/NewTaskModal.vue";
+import NewTaskListModal from "@/components/NewTaskListModal.vue";
+import UserModal from "@/components/UserModal.vue";
 </script>
 
 <script lang="ts">
@@ -217,6 +207,7 @@ let refs = {
   modalLogin: ref(null),
   modalRegister: ref(null),
   modalInfo: ref(null),
+  modalNewNote: ref(null),
   modalNewTask: ref(null),
   modalNewTasklist: ref(null),
   modalNewEvent: ref(null),

@@ -15,7 +15,7 @@
 
       <ion-list inset>
         <ion-item>
-          <ion-input color="primary" @ionChange="name = $event.detail.value" type="text" placeholder="Meeting with John"></ion-input>
+          <ion-input :value="name" color="primary" @input="name = $event.target.value" type="text" placeholder="Meeting with John"></ion-input>
         </ion-item>
       </ion-list>
 
@@ -34,11 +34,11 @@
         </ion-item>
       </ion-list>
       <ion-modal :keep-contents-mounted="true">
-        <ion-datetime mode="ios" :model-value="date"  @ionChange="alert(date.value)" :min="minStartDate.toISOString()" :hour-values="minStartsDateHoursSelection" :minute-values="minStartsDateMinutesSelection" id="datetime-start"></ion-datetime>
+        <ion-datetime mode="ios" :value="date" @ionChange="date = $event.detail.value"  :min="minStartDate.toISOString()" :hour-values="minStartsDateHoursSelection" :minute-values="minStartsDateMinutesSelection" id="datetime-start"></ion-datetime>
       </ion-modal>
 
       <ion-modal :keep-contents-mounted="true">
-        <ion-datetime mode="ios" :model-value="date" @ionChange="alert(date.value)" :min="minEndsDate.toISOString()" id="datetime-end"></ion-datetime>
+        <ion-datetime mode="ios" :value="dateEnd" @ionChange="dateEnd = $event.detail.value" :min="minEndsDate.toISOString()" id="datetime-end"></ion-datetime>
       </ion-modal>
 
       <ion-button expand="full" type="button" @click="addEvent()">Add</ion-button>
@@ -54,7 +54,6 @@ import { XCircle } from "lucide-vue-next";
 </script>
 
 <script lang="ts">
-import { ref } from "vue"
 import { closeModals } from "@/functions/modals"
 import { IonDatetime } from "@ionic/vue"
 
@@ -65,20 +64,16 @@ minEndsDate.setMinutes(minStartDate.getMinutes() + 1)
 const minutesSelection = Array.from(Array(60).keys())
 const minStartsDateMinutesSelection = minutesSelection.slice(minStartDate.getMinutes(), minutesSelection.length)
 
-const hoursSelection = Array.from(Array(60).keys())
+const hoursSelection = Array.from(Array(24).keys())
 const minStartsDateHoursSelection = hoursSelection.slice(minStartDate.getHours(), hoursSelection.length)
 
-
-const name = ref(null) as string
-const date = ref(null) as Date
-const dateEnd = ref(null) as Date
 
 export default {
   data() {
     return {
-      name: name,
-      date: date,
-      dateEnd: dateEnd,
+      name: "",
+      date: new Date().toISOString(),
+      dateEnd: new Date().toISOString(),
       minStartDate: minStartDate,
       minEndsDate: minEndsDate,
       minStartsDateMinutesSelection: minStartsDateMinutesSelection,
@@ -87,7 +82,7 @@ export default {
   },
   methods: {
     addEvent () {
-      console.log(name, date)
+      console.log(this.name, this.date)
     },
     closeModals
   },
