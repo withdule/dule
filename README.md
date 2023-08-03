@@ -13,6 +13,13 @@ The application to manage tasks, reminders, events, and notes.
 
 </div>
 
+## Project status
+- [x] Authentication
+- [ ] Events 
+- [ ] Reminders
+- [ ] Notes
+- [ ] Tasks
+- [ ] Tasklists
 
 ## What is Dule ?
 
