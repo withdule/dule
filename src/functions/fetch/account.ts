@@ -2,6 +2,14 @@ import {get, handleResponse} from "@/functions/fetch/tools";
 import {displayToast} from "@/functions/toasts";
 import axios from "axios";
 
+async function hashPassword(password: string): Promise<string> {
+    const encoder = new TextEncoder();
+    const decoder = new TextDecoder();
+    const data = encoder.encode(password);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return decoder.decode(hash)
+}
+
 async function getToken(email: string, password: string, checks = true): Promise<string> {
     const url = import.meta.env.VITE_API_URL + '/me/login'
     const data = {
@@ -40,5 +48,6 @@ function logOut() {
 export {
     getToken,
     getAccount,
-    logOut
+    logOut,
+    hashPassword
 }
