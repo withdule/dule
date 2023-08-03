@@ -15,19 +15,19 @@
 
       <ion-list inset>
         <ion-item>
-          <ion-input color="primary" @ionChange="emailInput = $event.detail.value" type="email" placeholder="John Dule"></ion-input>
+          <ion-input color="primary" :value="fullname" @input="fullname = $event.target.value" type="text" placeholder="John Dule"></ion-input>
         </ion-item>
       </ion-list>
 
       <ion-list inset>
         <ion-item>
-          <ion-input color="primary" @ionChange="emailInput = $event.detail.value" type="email" placeholder="john@dule.com"></ion-input>
+          <ion-input color="primary" :value="email" @input="email = $event.target.value" type="email" placeholder="john@dule.com"></ion-input>
         </ion-item>
       </ion-list>
 
       <ion-list inset>
         <ion-item>
-          <ion-input @ionChange="passwordInput = $event.detail.value" type="password" placeholder="*******"></ion-input>
+          <ion-input :value="password" @input="password = $event.target.value" type="password" placeholder="*******"></ion-input>
         </ion-item>
       </ion-list>
 
@@ -44,17 +44,39 @@ import { XCircle } from "lucide-vue-next";
 </script>
 
 <script lang="ts">
-import { ref } from "vue"
 import { closeModals } from "@/functions/modals";
-
-const emailInput = ref(null) as string
-const passwordInput = ref(null) as string
+import {hashPassword} from "@/functions/fetch/account";
+import {post} from "@/functions/fetch/tools";
+import {displayToast} from "@/functions/toasts";
 
 
 export default {
+  data () {
+    return {
+      fullname: "",
+      email: "",
+      password: ""
+    }
+  },
   methods: {
-    register () {
-      console.log(emailInput)
+    async register () {
+      const url = import.meta.env.VITE_API_URL + '/me/register'
+      const password = await hashPassword(this.password)
+      const data = {
+        fullname: this.fullname,
+        email: this.email,
+        password: password
+      }
+      const response = await post(url, data)
+      localStorage.setItem('userToken', response.token)
+      localStorage.setItem('userCreds', JSON.stringify({
+        email: this.email,
+        password: password
+      }))
+      await displayToast('Registered', 'Your account have been created successfully', 2000, 'sucess')
+      setTimeout(() => {
+        location.reload()
+      }, 2000)
     },
     closeModals
   }

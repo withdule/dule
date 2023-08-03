@@ -60,7 +60,9 @@ export default {
         }))
         localStorage.setItem('userToken', token)
         await displayToast('Connected', 'Authenticated successfully', 2000, 'primary')
-        setTimeout(location.reload, 2000)
+        setTimeout(() => {
+          location.reload()
+        }, 2000)
       }
     },
     closeModals
