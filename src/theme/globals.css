@@ -1,5 +1,9 @@
-ion-content {
+ion-content, ion-page, .ion-page {
     --background: #e6ece6;
+}
+
+ion-page, .ion-page {
+    background: var(--background);
 }
 
 ion-datetime::part(native), ion-datetime-button::part(native) {
@@ -84,6 +88,17 @@ body.dark ion-modal ion-item {
     --ion-item-background: #212121;
 }
 
-body.dark ion-content {
+body.dark ion-content, body.dark ion-page, body.dark .ion-page {
     --background: #1A211C;
+}
+
+@media (min-width: 1024px) {
+    .ion-page ion-content:nth-child(2) {
+        width: 1024px;
+        transform: translate(-50%);
+        left: 50%;
+    }
+    ion-modal ion-content {
+        width: auto !important;
+    }
 }
