@@ -29,7 +29,7 @@ Install **requirements**
 Create `.env`
 
 ```dotenv
-API_URL=http://localhost:5000 # https://github.com/withdule/backend - Publicly avaible at https://dule-api.camarm.fr 
+VITE_API_URL=http://localhost:5000 # https://github.com/withdule/backend - Publicly avaible at https://dule-api.camarm.fr 
 ```
 
 ### Scripts
