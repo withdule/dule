@@ -34,11 +34,11 @@
         </ion-item>
       </ion-list>
       <ion-modal :keep-contents-mounted="true">
-        <ion-datetime mode="ios" :value="date" @ionChange="date = $event.detail.value"  :min="minStartDate.toISOString()" :hour-values="minStartsDateHoursSelection" :minute-values="minStartsDateMinutesSelection" id="datetime-start"></ion-datetime>
+        <ion-datetime mode="ios" :value="date" @ionChange="date = $event.detail.value" :min="minStartDate.toISOString()" id="datetime-start"></ion-datetime>
       </ion-modal>
 
       <ion-modal :keep-contents-mounted="true">
-        <ion-datetime mode="ios" :value="dateEnd" @ionChange="dateEnd = $event.detail.value" :min="minEndsDate.toISOString()" id="datetime-end"></ion-datetime>
+        <ion-datetime mode="ios" :value="dateEnd" @ionChange="dateEnd = $event.detail.value"  id="datetime-end"></ion-datetime>
       </ion-modal>
 
       <ion-button expand="full" type="button" @click="addEvent()">Add</ion-button>
@@ -58,14 +58,6 @@ import { closeModals } from "@/functions/modals"
 import { IonDatetime } from "@ionic/vue"
 
 const minStartDate = new Date()
-const minEndsDate = new Date()
-minEndsDate.setMinutes(minStartDate.getMinutes() + 1)
-
-const minutesSelection = Array.from(Array(60).keys())
-const minStartsDateMinutesSelection = minutesSelection.slice(minStartDate.getMinutes(), minutesSelection.length)
-
-const hoursSelection = Array.from(Array(24).keys())
-const minStartsDateHoursSelection = hoursSelection.slice(minStartDate.getHours(), hoursSelection.length)
 
 
 export default {
@@ -75,9 +67,6 @@ export default {
       date: new Date().toISOString(),
       dateEnd: new Date().toISOString(),
       minStartDate: minStartDate,
-      minEndsDate: minEndsDate,
-      minStartsDateMinutesSelection: minStartsDateMinutesSelection,
-      minStartsDateHoursSelection: minStartsDateHoursSelection,
     }
   },
   methods: {
