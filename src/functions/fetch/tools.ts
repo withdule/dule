@@ -67,7 +67,8 @@ async function handleResponse(request: Promise<AxiosResponse>, checks = true): P
                 }, 3000)
             }
         } else {
-            await displayToast('Error', 'An unknown error occured with the API', 2000, 'danger')
+            if (err.response) await displayToast(`Error ${err.response.data.status}`, err.response.data.message, 2000, 'danger')
+            else await displayToast('Error', 'An unknown error occured with the API', 2000, 'danger')
         }
         err.response.code = err.response.status
         return err.response
