@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.camarm.dule',
-  appName: 'dule',
+  appName: 'Dule',
   webDir: 'dist',
   server: {
     androidScheme: 'https'
