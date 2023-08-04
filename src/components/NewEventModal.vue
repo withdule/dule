@@ -56,6 +56,7 @@ import { XCircle } from "lucide-vue-next";
 <script lang="ts">
 import { closeModals } from "@/functions/modals"
 import { IonDatetime } from "@ionic/vue"
+import {post} from "@/functions/fetch/tools";
 
 const minStartDate = new Date()
 
@@ -70,8 +71,17 @@ export default {
     }
   },
   methods: {
-    addEvent () {
-      console.log(this.name, this.date)
+    async addEvent () {
+      const url = import.meta.env.VITE_API_URL + '/events'
+      const data = {
+        name: this.name,
+        startsAt: this.date,
+        endsAt: this.dateEnd
+      }
+      const event =  await post(url, data)
+      if (event) {
+        closeModals()
+      }
     },
     closeModals
   },
