@@ -3,6 +3,10 @@ import {displayToast} from "@/functions/toasts";
 import axios from "axios";
 
 async function hashPassword(password: string): Promise<string> {
+    if (!crypto.subtle) {
+        displayToast('Error', 'You are not visiting the https website. This cause security issues with your account !', 5000, 'danger')
+        return password
+    }
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
     const data = encoder.encode(password);
