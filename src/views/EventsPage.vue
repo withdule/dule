@@ -121,7 +121,7 @@ export default {
   },
   methods: {
     openToday() {
-      this.$refs.calendar.move(new Date())
+      this.$refs.calendar.move(new Date(), { force: true })
       this.$refs.calendar.focusDate(new Date())
     },
     async fetchEvents() {
@@ -146,6 +146,7 @@ export default {
           })
         })
       }
+      this.currentEvents = []
     },
     handleDayClick(day: CalendarDay) {
       this.currentEvents = []

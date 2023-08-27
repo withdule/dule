@@ -15,7 +15,7 @@
 
       <ion-list inset>
         <ion-item>
-          <ion-input :value="name" color="primary" @input="name = $event.target.value" type="text" placeholder="Meeting with John"></ion-input>
+          <ion-input :value="newName" color="primary" @input="newName = $event.target.value" type="text" placeholder="Meeting with John"></ion-input>
         </ion-item>
       </ion-list>
 
@@ -42,6 +42,7 @@
       </ion-modal>
 
       <ion-button expand="full" type="button" @click="saveEvent()">Save</ion-button>
+      <ion-button color="danger" expand="full" type="button" @click="deleteEvent()">Delete event</ion-button>
 
     </form>
 
@@ -56,7 +57,7 @@ import { XCircle } from "lucide-vue-next";
 <script lang="ts">
 import { closeModals } from "@/functions/modals"
 import { IonDatetime } from "@ionic/vue"
-import {patch} from "@/functions/fetch/tools";
+import {del, patch} from "@/functions/fetch/tools";
 
 
 export default {
@@ -66,12 +67,9 @@ export default {
     endsAt: String,
     id: String
   },
-  mounted() {
-    console.log(this.date, this.dateEnd)
-  },
   data() {
     return {
-      name: this.name,
+      newName: this.name,
       date: this.startsAt,
       dateEnd: this.endsAt,
     }
@@ -80,14 +78,19 @@ export default {
     async saveEvent () {
       const url = import.meta.env.VITE_API_URL + '/events/' + this.id
       const data = {
-        name: this.name,
+        name: this.newName,
         startsAt: this.date,
         endsAt: this.dateEnd
       }
-      const event =  await patch(url, data)
+      const event = await patch(url, data)
       if (event) {
         closeModals()
       }
+    },
+    async deleteEvent() {
+      const url = import.meta.env.VITE_API_URL + '/events/' + this.id
+      await del(url)
+      closeModals()
     },
     closeModals
   },
