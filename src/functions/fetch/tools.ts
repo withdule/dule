@@ -55,7 +55,6 @@ async function handleResponse(request: Promise<AxiosResponse>, checks = true): P
     } catch (err: AxiosError) {
         if (forbiddenCodes.includes(err.response.status) && checks) {
             const stringUserCreds = localStorage.getItem('userCredentials')
-            console.log(stringUserCreds)
             if (stringUserCreds) {
                 const userCreds = JSON.parse(stringUserCreds)
                 localStorage.setItem('userToken', await getToken(userCreds.email, userCreds.password, false))

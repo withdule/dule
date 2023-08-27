@@ -45,7 +45,6 @@ import { closeModals } from "@/functions/modals";
 export default {
   methods: {
     editAccount () {
-      console.log(this.name)
       closeModals()
     },
     closeModals
