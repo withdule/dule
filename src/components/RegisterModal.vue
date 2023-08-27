@@ -78,7 +78,7 @@ export default {
         location.reload()
       }, 2000)
     },
-    closeModals
+    closeModals()
   }
 }
 </script>
