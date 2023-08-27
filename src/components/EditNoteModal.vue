@@ -15,13 +15,13 @@
 
       <ion-list inset>
         <ion-item>
-          <ion-input required color="primary" @input="name = $event.target.value" :value="name" type="text" placeholder="Films to watch"></ion-input>
+          <ion-input required color="primary" @input="newName = $event.target.value" :value="newName" type="text" placeholder="Films to watch"></ion-input>
         </ion-item>
       </ion-list>
 
       <ion-list inset>
         <ion-item>
-          <ion-textarea auto-grow required color="primary" @input="content = $event.target.value" :value="content" placeholder="# Dule support markdown rich syntax">
+          <ion-textarea auto-grow required color="primary" @input="newContent = $event.target.value" :value="newContent" placeholder="# Dule support markdown rich syntax">
 
           </ion-textarea>
         </ion-item>
@@ -51,20 +51,19 @@ export default {
   },
   data() {
     return {
-      name: this.name,
-      content: this.content,
-      id: this.id
+      newName: this.name,
+      newContent: this.content,
     }
   },
   methods: {
     async editNote () {
       const url = import.meta.env.VITE_API_URL + '/notes/' + this.id
       const data = {
-        name: this.name,
-        content: this.content
+        name: this.newName,
+        content: this.newContent
       }
-      const event =  await patch(url, data)
-      if (event) {
+      const note = await patch(url, data)
+      if (note) {
         closeModals()
       }
     },
