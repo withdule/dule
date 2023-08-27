@@ -18,7 +18,7 @@
         <Sticker slot="start" class="ion-icon"/>
         <ion-label>
           <h2>Note</h2>
-          <p>A timeless rich text.</p>
+          <p>A timeless rich text. Titles, bold, italic, checkboxes and more...</p>
         </ion-label>
       </ion-item>
     </ion-list>
