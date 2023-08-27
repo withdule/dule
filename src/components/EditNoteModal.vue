@@ -1,7 +1,7 @@
 <template>
   <ion-header>
     <ion-toolbar>
-      <ion-title>Write a new note</ion-title>
+      <ion-title>Edit "{{ name }}"</ion-title>
       <ion-buttons slot="end">
         <ion-button color="medium" @click="closeModals()">
           <XCircle/>
@@ -27,7 +27,7 @@
         </ion-item>
       </ion-list>
 
-      <ion-button expand="full" type="button" @click="addNote()">Add</ion-button>
+      <ion-button expand="full" type="button" @click="editNote()">Save</ion-button>
 
     </form>
 
@@ -41,23 +41,29 @@ import { XCircle } from "lucide-vue-next";
 
 <script lang="ts">
 import { closeModals } from "@/functions/modals"
-import {post} from "@/functions/fetch/tools";
+import {patch} from "@/functions/fetch/tools";
 
 export default {
+  props: {
+    name: String,
+    content: String,
+    id: String
+  },
   data() {
     return {
-      name: "",
-      content: ""
+      name: this.name,
+      content: this.content,
+      id: this.id
     }
   },
   methods: {
-    async addNote () {
-      const url = import.meta.env.VITE_API_URL + '/notes'
+    async editNote () {
+      const url = import.meta.env.VITE_API_URL + '/notes/' + this.id
       const data = {
         name: this.name,
         content: this.content
       }
-      const event =  await post(url, data)
+      const event =  await patch(url, data)
       if (event) {
         closeModals()
       }

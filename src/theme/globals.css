@@ -103,6 +103,11 @@ body.dark ion-content, body.dark ion-page, body.dark .ion-page {
     border-style: solid;
 }
 
+.ion-content-padding {
+    --padding-start: 1.5em;
+    --padding-end: 1.5em;
+}
+
 @media (min-width: 1024px) {
     .ion-page ion-content:nth-child(2) {
         width: 1024px;

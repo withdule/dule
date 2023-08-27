@@ -5,6 +5,13 @@ interface DuleEvent {
     updatedAt: string
 }
 
+interface DuleNote {
+    name: string,
+    content: string,
+    updatedAt: string
+}
+
 export type {
-    DuleEvent
+    DuleEvent,
+    DuleNote
 }
