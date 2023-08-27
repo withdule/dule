@@ -73,7 +73,7 @@ export default {
         email: this.email,
         password: password
       }))
-      await displayToast('Registered', 'Your account have been created successfully', 2000, 'sucess')
+      await displayToast('Registered', 'Your account have been created successfully', 2000, 'primary')
       setTimeout(() => {
         location.reload()
       }, 2000)
