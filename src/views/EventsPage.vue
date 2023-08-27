@@ -32,14 +32,14 @@
                 <ion-label>
                   <h2>{{ event.name }}</h2>
                 </ion-label>
-                <!--              <Settings2 @click="createModal(New)" slot="end"/>-->
+                <Settings2 @click="createModal(EditEventModal, 'modalEditEvent', refs, { name: event.name, startsAt: event.startsAt, endsAt: event.endsAt, id: event._id })" slot="end"/>
               </ion-item>
               <ion-item>
                 <ion-label slot="start">
                   <p>Starts</p>
                 </ion-label>
                 <ion-label slot="end">
-                  {{ event.startsAt }}
+                  {{ event.displayStartsAt }}
                 </ion-label>
               </ion-item>
               <ion-item>
@@ -47,7 +47,7 @@
                   <p>Ends</p>
                 </ion-label>
                 <ion-label slot="end">
-                  {{ event.endsAt }}
+                  {{ event.displayEndsAt }}
                 </ion-label>
               </ion-item>
             </div>
@@ -80,6 +80,7 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue
 import { Calendar, Plus, Settings2, Sun, BoxSelect } from "lucide-vue-next"
 import {createModal} from "@/functions/modals";
 import NewEventModal from "@/components/NewEventModal.vue";
+import EditEventModal from "@/components/EditEventModal.vue";
 </script>
 
 <script lang="ts">
@@ -90,7 +91,8 @@ import {DuleEvent} from "@/functions/interfaces";
 import {ref} from "vue";
 
 let refs = {
-  modalNewEvent: ref(null)
+  modalNewEvent: ref(null),
+  modalEditEvent: ref(null)
 } as any
 
 window.addEventListener('closeModals', () => {
@@ -149,8 +151,8 @@ export default {
         const events = day.attributes as DuleEvent[]
         events.forEach((event) => {
           event = event.customData
-          event.startsAt = event.startsAt.slice(0, 16).replaceAll('-', '/').replace('T', ' ')
-          event.endsAt = event.endsAt.slice(0, 16).replaceAll('-', '/').replace('T', ' ')
+          event.displayStartsAt = event.startsAt.slice(0, 16).replaceAll('-', '/').replace('T', ' ')
+          event.displayEndsAt = event.endsAt.slice(0, 16).replaceAll('-', '/').replace('T', ' ')
           this.currentEvents.push(event)
         })
       }

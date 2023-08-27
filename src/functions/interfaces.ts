@@ -3,6 +3,8 @@ interface DuleEvent {
     startsAt: string,
     endsAt: string,
     updatedAt: string
+    displayStartsAt?: string
+    displayEndsAt?: string
 }
 
 interface DuleNote {
