@@ -45,5 +45,5 @@
     "vitest": "^0.32.2",
     "vue-tsc": "^1.0.24"
   },
-  "description": "An Ionic project"
+  "description": "Dule Ionic frontend: Add notes, tasks, reminders, schedule events... "
 }
