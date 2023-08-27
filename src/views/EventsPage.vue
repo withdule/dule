@@ -129,7 +129,6 @@ export default {
       if (events) {
         this.events = events.data
         this.events.forEach(event => {
-          console.log(event)
           this.calendarConfig.push({
             highlight: 'green',
             key: event._id,
