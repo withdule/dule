@@ -7,18 +7,25 @@
     </ion-header>
     <ion-content :fullscreen="true">
       <br>
-      <VCalendar style="display: block; width: 95.5%; margin: auto; border-color: transparent; border-radius: 9px" :attributes="calendarConfig" :rows="2" @dayclick="handleDayClick($event)" :isDark="{ selector: 'body', darkClass: 'dark' }">
+      <VCalendar style="display: block; width: 95.5%; margin: auto; border-color: transparent; border-radius: 9px" :attributes="calendarConfig" :rows="2" @dayclick="handleDayClick($event)" :isDark="{ selector: 'body', darkClass: 'dark' }" ref="calendar">
         <template #footer>
           <hr>
-          <ion-list class="ion-border" inset v-if="currentEvents.length > 0">
+          <ion-list class="ion-border" inset>
             <ion-item-divider>
-              <ion-label style="margin-top: 8px; margin-bottom: 8px;" slot="start" v-if="currentEvents.length > 0">
+              <ion-label style="margin-top: 8px; margin-bottom: 8px;" slot="start">
                 <h2>Events</h2>
               </ion-label>
               <ion-label slot="end" v-if="currentEvents.length > 0">
                 <p>the {{ new Date(currentEvents[0].startsAt).toLocaleDateString() }}</p>
               </ion-label>
             </ion-item-divider>
+            <ion-item v-if="currentEvents.length <= 0">
+              <BoxSelect slot="start"/>
+              <ion-label>
+                <p>No events this day, relax !</p>
+                <h2>Nothing to see here</h2>
+              </ion-label>
+            </ion-item>
             <div v-for="event in currentEvents">
               <ion-item>
                 <Calendar slot="start"/>
@@ -56,13 +63,21 @@
           </ion-label>
         </ion-item>
       </ion-list>
+      <ion-list inset>
+        <ion-item button @click="openToday()">
+          <Sun slot="start"/>
+          <ion-label>
+            Open today events
+          </ion-label>
+        </ion-item>
+      </ion-list>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import { Calendar, Plus, Settings2 } from "lucide-vue-next"
+import { Calendar, Plus, Settings2, Sun, BoxSelect } from "lucide-vue-next"
 import {createModal} from "@/functions/modals";
 import NewEventModal from "@/components/NewEventModal.vue";
 </script>
@@ -82,6 +97,7 @@ window.addEventListener('closeModals', () => {
   Object.keys(refs).forEach(key => {
     if (refs[key].value) refs[key].value.dismiss()
   })
+  window.dispatchEvent(new Event('reload'))
 })
 
 export default {
@@ -93,13 +109,18 @@ export default {
       refs: refs
     }
   },
-  mounted() {
+  mounted () {
     refs['page'] = this.$refs.page
+    window.addEventListener('reload', this.fetchEvents)
   },
   created () {
     this.fetchEvents()
   },
   methods: {
+    openToday() {
+      this.$refs.calendar.move(new Date())
+      this.$refs.calendar.focusDate(new Date())
+    },
     async fetchEvents() {
       const url = import.meta.env.VITE_API_URL + '/events'
       const events = await get(url)
