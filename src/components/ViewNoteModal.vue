@@ -5,6 +5,9 @@
         <ion-button @click="createModal(EditNoteModal, 'modalEditNote', refs, { name, content, id })">
           <Pencil/>
         </ion-button>
+        <ion-button @click="deleteNote()">
+          <Trash2 class="ion-color-danger"/>
+        </ion-button>
       </ion-buttons>
       <ion-title>{{ name }}</ion-title>
       <ion-buttons slot="end">
@@ -19,7 +22,7 @@
 
 <script setup lang="ts">
 import { IonTitle } from "@ionic/vue";
-import { XCircle, Pencil } from "lucide-vue-next";
+import { XCircle, Pencil, Trash2 } from "lucide-vue-next";
 import {createModal} from "@/functions/modals";
 import EditNoteModal from "@/components/EditNoteModal.vue";
 </script>
@@ -28,6 +31,8 @@ import EditNoteModal from "@/components/EditNoteModal.vue";
 import { closeModals } from "@/functions/modals"
 import { marked } from 'marked'
 import {ref} from "vue";
+import { Dialog } from '@capacitor/dialog';
+import {del} from "@/functions/fetch/tools";
 
 
 let refs = {
@@ -57,6 +62,17 @@ export default {
   },
   methods: {
     closeModals,
+    async deleteNote() {
+      const sure = await Dialog.confirm({
+        title: 'Delete note',
+        message: 'Do you really want to delete this note'
+      })
+      if (sure.value) {
+        const url = import.meta.env.VITE_API_URL + '/notes/' + this.id
+        await del(url)
+        closeModals()
+      }
+    },
     markdownToHTML(markdown: string) {
       return marked.parse(markdown)
     }
