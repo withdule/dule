@@ -31,8 +31,9 @@
 </template>
 
 <script setup lang="ts">
+import '@/theme/globals.css'
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import { Plus, Eye, FileEdit } from "lucide-vue-next"
+import { Plus, Eye } from "lucide-vue-next"
 import {createModal} from "@/functions/modals";
 import NewNoteModal from "@/components/NewNoteModal.vue";
 import ViewNoteModal from "@/components/ViewNoteModal.vue";

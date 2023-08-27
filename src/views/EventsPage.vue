@@ -76,6 +76,7 @@
 </template>
 
 <script setup lang="ts">
+import '@/theme/globals.css'
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
 import { Calendar, Plus, Settings2, Sun, BoxSelect } from "lucide-vue-next"
 import {createModal} from "@/functions/modals";

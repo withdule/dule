@@ -12,5 +12,6 @@
 </template>
 
 <script setup lang="ts">
+import '@/theme/globals.css'
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
 </script>
