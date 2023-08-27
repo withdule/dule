@@ -76,6 +76,7 @@ export default {
       const url = import.meta.env.VITE_API_URL + '/notes'
       const notes = await get(url)
       if (notes) {
+        notes.data.reverse() // Chrono order
         this.notes = notes.data
       }
       return

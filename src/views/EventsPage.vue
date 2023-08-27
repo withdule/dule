@@ -127,8 +127,10 @@ export default {
     async fetchEvents() {
       const url = import.meta.env.VITE_API_URL + '/events'
       const events = await get(url)
+      this.calendarConfig = []
       if (events) {
         this.events = events.data
+        this.events.reverse() // Chrono order
         this.events.forEach(event => {
           this.calendarConfig.push({
             highlight: 'green',
