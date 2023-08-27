@@ -15,7 +15,7 @@
 
       <ion-list inset>
         <ion-item>
-          <ion-input required color="primary" @input="name = $event.target.value" :value="name" type="text" placeholder="Turn on washing machine"></ion-input>
+          <ion-input required color="primary" @input="name = $event.target.value" :value="name" type="text" placeholder="Films to watch"></ion-input>
         </ion-item>
       </ion-list>
 
