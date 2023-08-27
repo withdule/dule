@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
+import VCalendar from 'v-calendar';
+import 'v-calendar/style.css';
 
 import { IonicVue } from '@ionic/vue';
 
@@ -25,7 +27,8 @@ import './theme/variables.css';
 
 const app = createApp(App)
   .use(IonicVue,  { mode: 'ios' })
-  .use(router);
+  .use(router)
+  .use(VCalendar, {})
   
 router.isReady().then(() => {
   app.mount('#app');

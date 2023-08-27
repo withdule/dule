@@ -20,9 +20,11 @@
     "@capacitor/status-bar": "5.0.6",
     "@ionic/vue": "^7.0.0",
     "@ionic/vue-router": "^7.0.0",
+    "@popperjs/core": "^2.11.8",
     "axios": "^1.4.0",
     "ionicons": "^7.0.0",
     "lucide-vue-next": "^0.248.0",
+    "v-calendar": "^3.0.3",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
   },

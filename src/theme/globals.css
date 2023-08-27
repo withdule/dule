@@ -2,6 +2,11 @@ ion-content, ion-page, .ion-page {
     --background: #eaeeea;
 }
 
+button.vc-arrow, button.vc-title, button.vc-nav-item, button.vc-nav-arrow, button.vc-nav-title {
+    background: var(--background);
+    color: var(--ion-text-color);
+}
+
 ion-page, .ion-page {
     background: var(--background);
 }
@@ -90,6 +95,12 @@ body.dark ion-modal ion-item {
 
 body.dark ion-content, body.dark ion-page, body.dark .ion-page {
     --background: #1A211C;
+}
+
+.ion-border {
+    border-width: 0.55px;
+    border-color: var(--ion-color-light-shade);
+    border-style: solid;
 }
 
 @media (min-width: 1024px) {
