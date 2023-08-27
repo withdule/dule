@@ -7,7 +7,7 @@
     </ion-header>
     <ion-content :fullscreen="true">
       <br>
-      <VCalendar style="display: block; width: 95.5%; margin: auto; border-color: transparent; border-radius: 7px" :attributes="calendarConfig" :rows="2" @dayclick="handleDayClick($event)" :isDark="{ selector: 'body', darkClass: 'dark' }">
+      <VCalendar style="display: block; width: 95.5%; margin: auto; border-color: transparent; border-radius: 9px" :attributes="calendarConfig" :rows="2" @dayclick="handleDayClick($event)" :isDark="{ selector: 'body', darkClass: 'dark' }">
         <template #footer>
           <hr>
           <ion-list class="ion-border" inset v-if="currentEvents.length > 0">
