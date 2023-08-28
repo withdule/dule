@@ -33,6 +33,7 @@ import { XCircle } from "lucide-vue-next";
 
 <script lang="ts">
 import { closeModals } from "@/functions/modals"
+import {post} from "@/functions/fetch/tools";
 
 export default {
   data() {
@@ -41,8 +42,15 @@ export default {
     }
   },
   methods: {
-    addTaskList () {
-      console.log(this.name)
+    async addTaskList () {
+      const url = import.meta.env.VITE_API_URL + '/tasks/lists'
+      const data = {
+        name: this.name
+      }
+      const tasklist = await post(url, data)
+      if (tasklist) {
+        closeModals()
+      }
     },
     closeModals
   },
