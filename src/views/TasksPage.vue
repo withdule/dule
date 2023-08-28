@@ -1,5 +1,5 @@
 <template>
-  <ion-page>
+  <ion-page ref="page">
     <ion-header>
       <ion-toolbar>
         <ion-title>Tasks</ion-title>
@@ -8,7 +8,7 @@
     <ion-content :fullscreen="true">
       <ion-list inset>
         <ion-item button @click="createModal(NewTaskListModal, 'modalNewTasklist', refs)">
-          <Plus slot="start"/>
+          <Plus class="focusable" slot="start"/>
           <ion-label>
             New tasklist
           </ion-label>
@@ -19,16 +19,24 @@
           <ion-label style="margin-top: 8px; margin-bottom: 8px;" slot="start">
             <h2>{{ list.name }}</h2>
           </ion-label>
-          <Plus slot="end"/>
+          <Plus class="focusable" @click="createModal(NewTaskModal, 'modalNewTask', refs, { tasklist: list._id })" slot="end"/>
         </ion-item-divider>
         <ion-item v-for="task in list.tasks">
-          <CheckSquare v-if="task.checked" class="ion-color-success" slot="start" @click="toggleTaskStatus(task)"/>
-          <BoxSelect v-else class="ion-color-medium" slot="start" @click="toggleTaskStatus(task)"/>
+          <CheckSquare v-if="task.checked" class="ion-color-success focusable" slot="start" @click="toggleTaskStatus(task)"/>
+          <BoxSelect v-else class="ion-color-medium focusable" slot="start" @click="toggleTaskStatus(task)"/>
           <ion-label>
             {{ task.content }}
           </ion-label>
-          <Trash2 class="ion-color-danger" slot="end" @click="deleteTask(task.id)"/>
+          <Trash2 class="ion-color-danger focusable" slot="end" @click="deleteTask(task._id)"/>
         </ion-item>
+      </ion-list>
+      <ion-list class="ion-border" inset v-if="tasklists.length == 0">
+        <ion-item-divider>
+          <ion-label style="margin-top: 8px; margin-bottom: 8px;" slot="start">
+            <h2>Unordered</h2>
+          </ion-label>
+          <Plus class="focusable" @click="createModal(NewTaskModal, 'modalNewTask', refs, )" slot="end"/>
+        </ion-item-divider>
       </ion-list>
     </ion-content>
   </ion-page>
@@ -40,6 +48,7 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue
 import { Plus, CheckSquare, BoxSelect, Trash2 } from "lucide-vue-next"
 import {createModal} from "@/functions/modals";
 import NewTaskListModal from "@/components/NewTaskListModal.vue";
+import NewTaskModal from "@/components/NewTaskModal.vue";
 </script>
 
 <script lang="ts">
@@ -77,23 +86,9 @@ export default {
   methods: {
     async fetchTasks() {
       const url = import.meta.env.VITE_API_URL + '/tasks'
-      const events = await get(url)
-      if (events) {
-        this.events = events.data
-        this.events.forEach(event => {
-          this.calendarConfig.push({
-            highlight: 'green',
-            key: event._id,
-            customData: event,
-            dates: [
-              [new Date(event.startsAt), new Date(event.endsAt)]
-            ],
-            popover: {
-              label: event.name,
-            },
-            order: 0
-          })
-        })
+      const tasks = await get(url)
+      if (tasks) {
+        this.tasklists = tasks.data
       }
     },
     async deleteTask(id: string) {
@@ -102,7 +97,7 @@ export default {
       await this.fetchTasks()
     },
     async toggleTaskStatus(task: DuleTask) {
-      const url = import.meta.env.VITE_API_URL + '/tasks/' + task.id
+      const url = import.meta.env.VITE_API_URL + '/tasks/' + task._id
       task.checked = !task.checked
       await patch(url, task)
       await this.fetchTasks()

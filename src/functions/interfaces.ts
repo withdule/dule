@@ -6,6 +6,7 @@ interface DuleEvent {
     displayStartsAt?: string
     displayEndsAt?: string
     id?: string
+    _id?: string
 }
 
 interface DuleNote {
@@ -13,6 +14,7 @@ interface DuleNote {
     content: string
     updatedAt: string
     id?: string
+    _id?: string
 }
 
 interface DuleTask {
@@ -21,12 +23,14 @@ interface DuleTask {
     updatedAt: string
     checked: boolean
     id?: string
+    _id?: string
 }
 
 interface DuleTasklist {
     name: string
     tasks: DuleTask[]
     id?: string
+    _id?: string
 }
 
 export type {
