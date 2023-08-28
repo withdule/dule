@@ -1,10 +1,11 @@
-import axios, {AxiosError, AxiosResponse} from "axios";
-import {getToken} from "@/functions/fetch/account";
-import {APIResponse} from "@/functions/fetch/interfaces";
-import {displayToast} from "@/functions/toasts";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { getToken } from "@/functions/fetch/account";
+import { APIResponse } from "@/functions/fetch/interfaces";
+import { displayToast } from "@/functions/toasts";
 
 
-const successCodes = [200, 201]
+// const successCodes = [200, 201]
 const forbiddenCodes = [401, 403]
 
 
@@ -52,13 +53,15 @@ async function handleResponse(request: Promise<AxiosResponse>, checks = true): P
     try {
         const response = await request
         return response.data
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     } catch (err: AxiosError) {
         if (forbiddenCodes.includes(err.response.status) && checks) {
             const stringUserCreds = localStorage.getItem('userCredentials')
             if (stringUserCreds) {
                 const userCreds = JSON.parse(stringUserCreds)
                 localStorage.setItem('userToken', await getToken(userCreds.email, userCreds.password, false))
-                let newRequestConfig = err.config
+                const newRequestConfig = err.config
                 newRequestConfig.headers.Authorization = `Bearer ${localStorage.getItem('userToken')}`
                 const newRequest = await axios.request(newRequestConfig)
                 return newRequest.data
@@ -70,7 +73,7 @@ async function handleResponse(request: Promise<AxiosResponse>, checks = true): P
             }
         } else {
             if (err.response) await displayToast(`Error ${err.response.data.status}`, err.response.data.message, 2000, 'danger')
-            else await displayToast('Error', 'An unknown error occured with the API', 2000, 'danger')
+            else await displayToast('Error', 'An unknown error occurred with the API', 2000, 'danger')
         }
         err.response.code = err.response.status
         return err.response

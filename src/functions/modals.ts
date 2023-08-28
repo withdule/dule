@@ -1,5 +1,6 @@
 import { modalController } from "@ionic/vue";
 import { Component } from "vue";
+import { ComponentRef } from "@ionic/core"
 
 const closeModalEvent = new Event('closeModals')
 
@@ -9,7 +10,7 @@ function closeModals() {
 
 async function createModal(component: Component, refName: string, refs: any, props = { }) {
     refs[refName].value = await modalController.create({
-        component: component,
+        component: component as ComponentRef,
         presentingElement: refs['page'].$el,
         canDismiss: true,
         componentProps: props

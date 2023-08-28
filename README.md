@@ -4,7 +4,7 @@
 
 <br>
 
-<img src=".github/icon.png" height="200"/>
+<img alt="Dule icon" src=".github/icon.png" height="200"/>
 
 # Dule
 [withdule.camarm.fr](https://withdule.camarm.fr)
