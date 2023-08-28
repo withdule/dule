@@ -20,6 +20,7 @@
             <h2>{{ list.name }}</h2>
           </ion-label>
 
+          <Trash2 v-if="list._id !== 'unordered'" @click="deleteTasklist(list._id)" class="focusable ion-color-danger ion-margin-end" slot="end"/>
           <Plus class="focusable" @click="createModal(NewTaskModal, 'modalNewTask', refs, { selectedTasklist: list._id, userTasklist })" slot="end"/>
         </ion-item-divider>
         <ion-item v-for="task in list.tasks">
@@ -80,7 +81,10 @@ export default {
   },
   mounted () {
     refs['page'] = this.$refs.page
-    window.addEventListener('reload', this.fetchTasks)
+    window.addEventListener('reload', () => {
+      this.fetchTasks()
+      this.fetchTasklist()
+    })
   },
   created () {
     this.fetchTasks()
@@ -96,6 +100,11 @@ export default {
     },
     async deleteTask(id: string) {
       const url = import.meta.env.VITE_API_URL + '/tasks/' + id
+      await del(url)
+      await this.fetchTasks()
+    },
+    async deleteTasklist(id: string) {
+      const url = import.meta.env.VITE_API_URL + '/tasks/lists/' + id
       await del(url)
       await this.fetchTasks()
     },
