@@ -20,7 +20,7 @@
       <ion-list inset>
         <ion-item v-for="note in notes" button @click="createModal(ViewNoteModal, 'modalViewNote', refs, { name: note.name, content: note.content, id: note._id, updatedAt: note.updatedAt })">
           <ion-label>
-            <p>{{ note.content.slice(0, 30) }}...</p>
+            <p>{{ getPlainText(note.content).slice(0, 50) }}...</p>
             <h2>{{ note.name }}</h2>
           </ion-label>
           <Eye slot="end"/>
@@ -43,7 +43,8 @@ import ViewNoteModal from "@/components/ViewNoteModal.vue";
 
 import { ref } from "vue";
 import {get} from "@/functions/fetch/tools";
-import {DuleNote} from "@/functions/interfaces";
+import { DuleNote } from "@/functions/interfaces";
+import { marked } from 'marked'
 
 let refs = {
   modalNewNote: ref(null),
@@ -80,6 +81,11 @@ export default {
         this.notes = notes.data
       }
       return
+    },
+    getPlainText(markdown: string) {
+      const fictiveElement = document.createElement('div')
+      fictiveElement.innerHTML = marked(markdown)
+      return  fictiveElement.innerText
     }
   }
 }
