@@ -40,13 +40,23 @@ import {
 <script lang="ts">
 
 export default {
-  data() {
+  data () {
     return {
       loggedIn: localStorage.getItem('userCredentials')
     }
   },
+  mounted () {
+    this.updateTheme()
+    window.addEventListener('closeModals', this.updateTheme)
+  },
   beforeUpdate() {
     this.loggedIn = localStorage.getItem('userCredentials')
+  },
+  methods: {
+    updateTheme() {
+      const theme = localStorage.getItem('userAppearance')
+      theme == 'dark' ? document.body.classList.add('dark') : document.body.classList.remove('dark')
+    }
   }
 }
 </script>
