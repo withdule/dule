@@ -1,3 +1,11 @@
+.focusable {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
 ion-content, ion-page, .ion-page {
     --background: #eaeeea;
 }

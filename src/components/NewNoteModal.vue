@@ -21,9 +21,13 @@
 
       <ion-list inset>
         <ion-item>
-          <ion-textarea auto-grow required color="primary" @input="content = $event.target.value" :value="content" placeholder="# Dule support markdown rich syntax">
+          <ion-textarea ref="inputContent" auto-grow required color="primary" @input="content = $event.target.value" :value="content" placeholder="# Dule support markdown rich syntax">
 
           </ion-textarea>
+          <div class="hidden" ref="preview">
+
+          </div>
+          <Eye @click="preview()" class="focusable" slot="end"/>
         </ion-item>
       </ion-list>
 
@@ -36,12 +40,13 @@
 
 <script setup lang="ts">
 import { IonTitle } from "@ionic/vue";
-import { XCircle } from "lucide-vue-next";
+import { XCircle, Eye } from "lucide-vue-next";
 </script>
 
 <script lang="ts">
 import { closeModals } from "@/functions/modals"
 import {post} from "@/functions/fetch/tools";
+import {marked} from "marked";
 
 export default {
   data() {
@@ -61,6 +66,11 @@ export default {
       if (event) {
         closeModals()
       }
+    },
+    preview() {
+      this.$refs.preview.innerHTML = marked(this.content)
+      this.$refs.preview.classList.toggle('hidden')
+      this.$refs.inputContent.classList.toggle('hidden')
     },
     closeModals
   },
