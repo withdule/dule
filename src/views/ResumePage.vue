@@ -111,7 +111,7 @@
         Tasks
       </div>
       <ion-list inset>
-        <ion-item button @click="createModal(NewTaskModal, 'modalNewTask', refs)">
+        <ion-item button @click="createModal(NewTaskModal, 'modalNewTask', refs, { userTasklist })">
           <CheckCircle2 slot="start" class="icon-icon"/>
           <ion-label>
             <p>Plan your day tasks</p>
@@ -202,6 +202,8 @@ import UserModal from "@/components/UserModal.vue";
 import { ref } from "vue";
 import { createModal } from "@/functions/modals";
 import {getAccount} from "@/functions/fetch/account";
+import {get} from "@/functions/fetch/tools";
+import {DuleTasklist} from "@/functions/interfaces";
 
 let refs = {
   modalLogin: ref(null),
@@ -231,7 +233,8 @@ export default {
         fullname: "",
         email: "",
         createdAt: ""
-      }
+      },
+      userTasklist: []
     }
   },
   mounted() {
@@ -240,6 +243,7 @@ export default {
     if (localStorage.getItem('userToken') && localStorage.getItem('userCredentials')) {
       this.loggedIn = true
       getAccount().then(user => this.user = user)
+      this.fetchTasklist()
     }
   },
   methods: {
@@ -251,6 +255,13 @@ export default {
     },
     refreshAccount() {
       getAccount().then(user => this.user = user)
+    },
+    async fetchTasklist() {
+      const url = import.meta.env.VITE_API_URL + '/tasks/lists'
+      const userTasklist = await get(url) as any & DuleTasklist[]
+      if (userTasklist) {
+        this.userTasklist = userTasklist.data
+      }
     },
     createModal
   },
