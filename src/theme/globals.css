@@ -94,7 +94,15 @@ body.dark ion-modal ion-item {
 }
 
 body.dark ion-content, body.dark ion-page, body.dark .ion-page {
-    --background: #1A211C;
+    --background: #0b0e0c;
+}
+
+body.dark .dule-face-icon *:nth-child(1) {
+    stroke: var(--ion-text-color)
+}
+
+body.dark .dule-face-icon *:not(:nth-child(1)) {
+    fill: var(--ion-text-color)
 }
 
 .ion-border {
@@ -106,6 +114,12 @@ body.dark ion-content, body.dark ion-page, body.dark .ion-page {
 .ion-content-padding {
     --padding-start: 1.5em;
     --padding-end: 1.5em;
+}
+
+.ion-toggle-border::part(track) {
+    border-width: 0.55px;
+    border-color: var(--ion-color-light-shade);
+    border-style: solid;
 }
 
 @media (min-width: 1024px) {
