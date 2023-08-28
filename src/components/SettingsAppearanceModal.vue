@@ -22,7 +22,7 @@
 
         </ion-toggle>
       </ion-item>
-      <ion-item button>
+      <ion-item disabled button>
         <Frame slot="start"/>
         <ion-label>
           <p>Customize app icon</p>
