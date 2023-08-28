@@ -21,7 +21,7 @@
 
       <ion-list inset>
         <ion-item>
-          <ion-select label="Tasklist" :value="tasklist" placeholder="Unordered">
+          <ion-select ref="selectTasklist" interface="action-sheet" label="Tasklist" :value="tasklist" placeholder="Unordered">
             <ion-select-option value="unordered">Unordered</ion-select-option>
             <ion-select-option v-for="tasklist in userTasklist" :value="tasklist._id">{{ tasklist.name }}</ion-select-option>
           </ion-select>
@@ -43,21 +43,18 @@ import { XCircle } from "lucide-vue-next";
 <script lang="ts">
 import { closeModals } from "@/functions/modals"
 import {DuleTasklist} from "@/functions/interfaces";
-import {get, post} from "@/functions/fetch/tools";
+import {post} from "@/functions/fetch/tools";
 
 export default {
   props: {
-    selectedTasklist: String
+    selectedTasklist: String,
+    userTasklist: Array<DuleTasklist>
   },
-  data() {
+  data () {
     return {
       name: "",
-      userTasklist: [] as DuleTasklist[],
-      tasklist: this.selectedTasklist || "unordered"
+      tasklist: this.selectedTasklist || 'unordered'
     }
-  },
-  created() {
-    this.fetchTasklist()
   },
   methods: {
     async addTask () {
@@ -69,13 +66,6 @@ export default {
       const task = await post(url, data)
       if (task) {
         closeModals()
-      }
-    },
-    async fetchTasklist () {
-      const url = import.meta.env.VITE_API_URL + '/tasks/lists'
-      const userTasklist = await get(url) as any & DuleTasklist[]
-      if (userTasklist) {
-        this.userTasklist = userTasklist
       }
     },
     closeModals

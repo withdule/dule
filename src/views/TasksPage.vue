@@ -19,7 +19,8 @@
           <ion-label style="margin-top: 8px; margin-bottom: 8px;" slot="start">
             <h2>{{ list.name }}</h2>
           </ion-label>
-          <Plus class="focusable" @click="createModal(NewTaskModal, 'modalNewTask', refs, { tasklist: list._id })" slot="end"/>
+
+          <Plus class="focusable" @click="createModal(NewTaskModal, 'modalNewTask', refs, { selectedTasklist: list._id, userTasklist })" slot="end"/>
         </ion-item-divider>
         <ion-item v-for="task in list.tasks">
           <CheckSquare v-if="task.checked" class="ion-color-success focusable" slot="start" @click="toggleTaskStatus(task)"/>
@@ -73,6 +74,7 @@ export default {
   data () {
     return {
       tasklists: [] as DuleTasklist[],
+      userTasklist: [] as DuleTasklist[],
       refs: refs
     }
   },
@@ -82,6 +84,7 @@ export default {
   },
   created () {
     this.fetchTasks()
+    this.fetchTasklist()
   },
   methods: {
     async fetchTasks() {
@@ -101,6 +104,13 @@ export default {
       task.checked = !task.checked
       await patch(url, task)
       await this.fetchTasks()
+    },
+    async fetchTasklist() {
+      const url = import.meta.env.VITE_API_URL + '/tasks/lists'
+      const userTasklist = await get(url) as any & DuleTasklist[]
+      if (userTasklist) {
+        this.userTasklist = userTasklist.data
+      }
     }
   }
 }
