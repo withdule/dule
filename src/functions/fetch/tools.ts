@@ -58,7 +58,10 @@ async function handleResponse(request: Promise<AxiosResponse>, checks = true): P
             if (stringUserCreds) {
                 const userCreds = JSON.parse(stringUserCreds)
                 localStorage.setItem('userToken', await getToken(userCreds.email, userCreds.password, false))
-                return await axios.request(err.config).data
+                let newRequestConfig = err.config
+                newRequestConfig.headers.Authorization = `Bearer ${localStorage.getItem('userToken')}`
+                const newRequest = await axios.request(newRequestConfig)
+                return newRequest.data
             } else {
                 await displayToast('Error', 'Unable to access API: forbidden. Please (re)login.', 3000, 'danger')
                 setTimeout(() => {

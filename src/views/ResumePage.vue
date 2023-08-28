@@ -219,6 +219,7 @@ window.addEventListener('closeModals', () => {
   Object.keys(refs).forEach(key => {
     if (refs[key].value) refs[key].value.dismiss()
   })
+  window.dispatchEvent(new Event('reloadUser'))
 })
 
 export default {
@@ -234,6 +235,7 @@ export default {
     }
   },
   mounted() {
+    window.addEventListener('reloadUser', this.refreshAccount)
     refs['page'] = this.$refs.page
     if (localStorage.getItem('userToken') && localStorage.getItem('userCredentials')) {
       this.loggedIn = true
@@ -246,6 +248,9 @@ export default {
     },
     goTo(href: string) {
       this.$router.push(href)
+    },
+    refreshAccount() {
+      getAccount().then(user => this.user = user)
     },
     createModal
   },

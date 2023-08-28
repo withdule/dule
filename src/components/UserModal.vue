@@ -17,7 +17,7 @@
           <h2><span>{{ user.fullname }}</span></h2>
           <p>{{ user.email }}</p>
         </ion-label>
-        <Cog slot="end"/>
+        <Cog slot="end" @click="createModal(SettingsModal, 'modalSettings', refs, { email: user.email, fullname: user.fullname })"/>
       </ion-item>
       <ion-item>
         <ion-label slot="start">
@@ -68,11 +68,24 @@
 import { IonTitle } from "@ionic/vue";
 import {XCircle, Cog, BookMarked, CalendarCheck, CheckSquare, LogOut} from "lucide-vue-next";
 import DuleFaceIcon from "@/components/DuleFaceIcon.vue";
+import {createModal} from "@/functions/modals";
+import SettingsModal from "@/components/SettingsModal.vue";
 </script>
 
 <script lang="ts">
 import {closeModals} from "@/functions/modals";
 import {getAccount, logOut} from "@/functions/fetch/account";
+import {ref} from "vue";
+
+let refs = {
+  modalSettings: ref(null)
+} as any
+
+window.addEventListener('closeModals', () => {
+  Object.keys(refs).forEach(key => {
+    if (refs[key].value) refs[key].value.dismiss()
+  })
+})
 
 export default {
   data () {
@@ -81,8 +94,12 @@ export default {
         fullname: "",
         email: "",
         createdAt: "",
+        refs: refs
       }
     }
+  },
+  mounted () {
+    refs['page'] = this.$el
   },
   created () {
     getAccount().then(user => this.user = user)
