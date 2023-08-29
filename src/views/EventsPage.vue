@@ -6,6 +6,9 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
+      <ion-refresher slot="fixed" @ionRefresh="refresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
       <br>
       <VCalendar style="display: block; width: 95.5%; margin: auto; border-color: transparent; border-radius: 11px" :attributes="calendarConfig" :rows="1" @dayclick="handleDayClick($event)" :isDark="{ selector: 'body', darkClass: 'dark' }" ref="calendar">
         <template #footer>
@@ -77,9 +80,10 @@
 
 <script setup lang="ts">
 import '@/theme/globals.css'
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonRefresher, IonRefresherContent } from '@ionic/vue';
 import { Calendar, Plus, Settings2, Sun, BoxSelect } from "lucide-vue-next"
 import {createModal} from "@/functions/modals";
+import {refresh} from "@/functions/refresher";
 import NewEventModal from "@/components/NewEventModal.vue";
 import EditEventModal from "@/components/EditEventModal.vue";
 </script>

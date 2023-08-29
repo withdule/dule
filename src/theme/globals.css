@@ -10,6 +10,10 @@ ion-content, ion-page, .ion-page {
     --background: #eaeeea;
 }
 
+ion-refresher {
+    z-index: 150;
+}
+
 button.vc-arrow, button.vc-title, button.vc-nav-item, button.vc-nav-arrow, button.vc-nav-title {
     background: var(--background);
     color: var(--ion-text-color);

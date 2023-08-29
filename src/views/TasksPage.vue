@@ -6,6 +6,9 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
+      <ion-refresher slot="fixed" @ionRefresh="refresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
       <ion-list inset>
         <ion-item button @click="createModal(NewTaskListModal, 'modalNewTasklist', refs)">
           <Plus class="focusable" slot="start"/>
@@ -46,11 +49,12 @@
 
 <script setup lang="ts">
 import '@/theme/globals.css'
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonRefresherContent, IonRefresher} from '@ionic/vue';
 import { Plus, CheckSquare, BoxSelect, Trash2 } from "lucide-vue-next"
 import {createModal} from "@/functions/modals";
 import NewTaskListModal from "@/components/NewTaskListModal.vue";
 import NewTaskModal from "@/components/NewTaskModal.vue";
+import {refresh} from "@/functions/refresher";
 </script>
 
 <script lang="ts">

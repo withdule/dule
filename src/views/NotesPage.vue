@@ -6,6 +6,9 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
+      <ion-refresher slot="fixed" @ionRefresh="refresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
       <ion-list inset>
         <ion-item button @click="createModal(NewNoteModal, 'modalNewNote', refs)">
           <Plus slot="start"/>
@@ -32,11 +35,12 @@
 
 <script setup lang="ts">
 import '@/theme/globals.css'
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonRefresherContent, IonRefresher} from '@ionic/vue';
 import { Plus, Eye } from "lucide-vue-next"
 import {createModal} from "@/functions/modals";
 import NewNoteModal from "@/components/NewNoteModal.vue";
 import ViewNoteModal from "@/components/ViewNoteModal.vue";
+import {refresh} from "@/functions/refresher";
 </script>
 
 <script lang="ts">
