@@ -6,20 +6,15 @@ async function vibrate() {
 }
 
 async function endVibration() {
-    await Haptics.selectionEnd();
-}
-
-async function startVibration() {
-    await Haptics.selectionStart();
+    await Haptics.notification({ type: "SUCCESS" } as any);
 }
 
 async function changedVibration() {
-    await Haptics.selectionChanged();
+    await Haptics.notification({ type: "WARNING" } as any);
 }
 
 export {
     vibrate,
     endVibration,
-    startVibration,
     changedVibration
 }
