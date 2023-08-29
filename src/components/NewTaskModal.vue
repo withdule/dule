@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonTitle } from "@ionic/vue";
+import { IonTitle, IonSelect, IonSelectOption } from "@ionic/vue";
 import { XCircle } from "lucide-vue-next";
 </script>
 

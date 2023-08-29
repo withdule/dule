@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonTitle } from "@ionic/vue";
+import { IonTitle, IonTextarea } from "@ionic/vue";
 import { XCircle, Eye } from "lucide-vue-next";
 </script>
 
