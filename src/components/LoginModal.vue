@@ -41,7 +41,7 @@ import { XCircle } from "lucide-vue-next";
 import { closeModals } from "@/functions/modals";
 import {getToken, hashPassword} from "@/functions/fetch/account";
 import {displayToast} from "@/functions/toasts";
-import { Haptics, ImpactStyle } from "@capacitor/haptics"
+import {vibrate} from "@/functions/native/tools";
 
 export default {
   methods: {
@@ -62,7 +62,7 @@ export default {
         localStorage.setItem('userToken', token)
         await displayToast('Connected', 'Authenticated successfully', 2000, 'primary')
         setTimeout(() => {
-          Haptics.impact({ style: ImpactStyle.Light })
+          vibrate()
           location.reload()
         }, 2000)
       }

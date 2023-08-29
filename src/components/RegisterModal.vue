@@ -48,6 +48,7 @@ import { closeModals } from "@/functions/modals";
 import {hashPassword} from "@/functions/fetch/account";
 import {post} from "@/functions/fetch/tools";
 import {displayToast} from "@/functions/toasts";
+import {vibrate} from "@/functions/native/tools";
 
 
 export default {
@@ -75,6 +76,7 @@ export default {
       }))
       await displayToast('Registered', 'Your account have been created successfully', 2000, 'primary')
       setTimeout(() => {
+        vibrate()
         location.reload()
       }, 2000)
     },
