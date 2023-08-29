@@ -41,7 +41,7 @@
                 <ion-label slot="start">
                   <p>Starts</p>
                 </ion-label>
-                <ion-label slot="end">
+                <ion-label slot="end" class="ion-text-wrap max-width">
                   {{ event.displayStartsAt }}
                 </ion-label>
               </ion-item>
@@ -49,7 +49,7 @@
                 <ion-label slot="start">
                   <p>Ends</p>
                 </ion-label>
-                <ion-label slot="end">
+                <ion-label slot="end" class="ion-text-wrap max-width">
                   {{ event.displayEndsAt }}
                 </ion-label>
               </ion-item>

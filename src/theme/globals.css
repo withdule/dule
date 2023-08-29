@@ -2,6 +2,10 @@
     cursor: pointer;
 }
 
+.ion-text-wrap.max-width {
+    min-width: max-content;
+}
+
 .hidden {
     display: none;
 }
