@@ -12,7 +12,8 @@
   <ion-content class="ion-padding" ref="presentingElement">
     <ion-list inset>
       <ion-item>
-        <DuleFaceIcon slot="start" class="ion-color-tertiary"/>
+        <DuleFaceIconDark v-if="darkTheme" slot="start" />
+        <DuleFaceIcon v-else slot="start" />
         <ion-label>
           <h2><span>{{ user.fullname }}</span></h2>
           <p>{{ user.email }}</p>
@@ -70,6 +71,7 @@ import {XCircle, Cog, BookMarked, CalendarCheck, CheckSquare, LogOut} from "luci
 import DuleFaceIcon from "@/components/DuleFaceIcon.vue";
 import {createModal} from "@/functions/modals";
 import SettingsModal from "@/components/SettingsModal.vue";
+import DuleFaceIconDark from "@/components/DuleFaceIconDark.vue";
 </script>
 
 <script lang="ts">
@@ -94,8 +96,9 @@ export default {
         fullname: "",
         email: "",
         createdAt: "",
-        refs: refs
-      }
+      },
+      refs: refs,
+      darkTheme: false
     }
   },
   mounted () {
@@ -103,12 +106,16 @@ export default {
   },
   created () {
     getAccount().then(user => this.user = user)
+    this.darkTheme = this.isDarkTheme()
   },
   methods: {
     closeModals,
     disconnectAccount() {
       logOut()
       location.reload()
+    },
+    isDarkTheme() {
+      return localStorage.getItem('userAppearance') === 'dark'
     }
   }
 }

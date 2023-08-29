@@ -8,7 +8,8 @@
     <ion-content :fullscreen="true" v-if="loggedIn">
       <ion-list inset>
         <ion-item>
-          <DuleFaceIcon slot="start" />
+          <DuleFaceIconDark v-if="darkTheme" slot="start" />
+          <DuleFaceIcon v-else slot="start" />
           <ion-label>
             <h2>Hello, <span>{{ user.fullname }}</span></h2>
             <p>What are you doing today ?</p>
@@ -196,6 +197,7 @@ import NewNoteModal from "@/components/NewNoteModal.vue";
 import NewTaskModal from "@/components/NewTaskModal.vue";
 import NewTaskListModal from "@/components/NewTaskListModal.vue";
 import UserModal from "@/components/UserModal.vue";
+import DuleFaceIconDark from "@/components/DuleFaceIconDark.vue";
 </script>
 
 <script lang="ts">
@@ -229,6 +231,7 @@ export default {
     return {
       loggedIn: false,
       refs: refs,
+      darkTheme: false,
       user: {
         fullname: "",
         email: "",
@@ -244,6 +247,7 @@ export default {
       this.loggedIn = true
       getAccount().then(user => this.user = user)
       this.fetchTasklist()
+      this.darkTheme = this.isDarkTheme()
     }
   },
   methods: {
@@ -255,6 +259,7 @@ export default {
     },
     refreshAccount() {
       getAccount().then(user => this.user = user)
+      this.darkTheme = this.isDarkTheme()
     },
     async fetchTasklist() {
       const url = import.meta.env.VITE_API_URL + '/tasks/lists'
@@ -262,6 +267,9 @@ export default {
       if (userTasklist) {
         this.userTasklist = userTasklist.data
       }
+    },
+    isDarkTheme() {
+      return localStorage.getItem('userAppearance') === 'dark'
     },
     createModal
   },

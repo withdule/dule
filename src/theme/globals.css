@@ -104,7 +104,7 @@ body.dark ion-modal .inset-background, ion-modal .inset-background ion-toolbar {
 }
 
 body.dark ion-modal ion-item {
-    --ion-item-background: #212121;
+    --ion-item-background: #101311;
 }
 
 body.dark ion-content, body.dark ion-page, body.dark .ion-page {
