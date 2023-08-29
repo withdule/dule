@@ -39,6 +39,8 @@ import {
 
 <script lang="ts">
 
+import {changedVibration, endVibration} from "@/functions/native/tools";
+
 export default {
   data () {
     return {
@@ -47,7 +49,11 @@ export default {
   },
   mounted () {
     this.updateTheme()
-    window.addEventListener('closeModals', this.updateTheme)
+    window.addEventListener('closeModals', () => {
+      this.updateTheme()
+      endVibration()
+    })
+    window.addEventListener('reloaded', changedVibration)
   },
   beforeUpdate() {
     this.loggedIn = localStorage.getItem('userCredentials')
