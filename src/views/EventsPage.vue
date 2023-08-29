@@ -173,13 +173,13 @@ export default {
       this.currentEvents = []
       if (day.attributes) {
         const events = day.attributes as DuleEvent[]
-        events.forEach((event) => {
+        for (let event of events) {
           event = event.customData
           event.displayStartsAt = event.startsAt.slice(0, 16).replaceAll('-', '/').replace('T', ' ')
           event.displayEndsAt = event.endsAt.slice(0, 16).replaceAll('-', '/').replace('T', ' ')
           this.currentEvents.push(event)
-
-        })
+        }
+        this.currentEvents.reverse() // Chronologic order
       }
       this.focusedDay = `the ${day.id}`
     }
