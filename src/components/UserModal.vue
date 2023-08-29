@@ -71,6 +71,8 @@ import {IonTitle} from "@ionic/vue";
 import {BookMarked, CalendarCheck, CheckSquare, Cog, LogOut, XCircle} from "lucide-vue-next";
 import DuleFaceIcon from "@/components/DuleFaceIcon.vue";
 import DuleFaceIconDark from "@/components/DuleFaceIconDark.vue";
+import {createModal} from "@/functions/modals"
+import SettingsModal from "@/components/SettingsModal.vue";
 </script>
 
 <script lang="ts">
