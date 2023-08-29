@@ -7,7 +7,7 @@
     </ion-header>
     <ion-content :fullscreen="true">
       <br>
-      <VCalendar style="display: block; width: 95.5%; margin: auto; border-color: transparent; border-radius: 11px" :attributes="calendarConfig" :rows="2" @dayclick="handleDayClick($event)" :isDark="{ selector: 'body', darkClass: 'dark' }" ref="calendar">
+      <VCalendar style="display: block; width: 95.5%; margin: auto; border-color: transparent; border-radius: 11px" :attributes="calendarConfig" :rows="1" @dayclick="handleDayClick($event)" :isDark="{ selector: 'body', darkClass: 'dark' }" ref="calendar">
         <template #footer>
           <hr>
           <ion-list class="ion-border" inset>
@@ -15,8 +15,8 @@
               <ion-label style="margin-top: 8px; margin-bottom: 8px;" slot="start">
                 <h2>Events</h2>
               </ion-label>
-              <ion-label slot="end" v-if="currentEvents.length > 0">
-                <p>the {{ new Date(currentEvents[0].startsAt).toLocaleDateString() }}</p>
+              <ion-label slot="end">
+                <p>{{ focusedDay }}</p>
               </ion-label>
             </ion-item-divider>
             <ion-item v-if="currentEvents.length <= 0">
@@ -89,7 +89,8 @@ import EditEventModal from "@/components/EditEventModal.vue";
 import {get} from "@/functions/fetch/tools";
 import {CalendarDay} from "v-calendar/dist/types/src/utils/page";
 import {DuleEvent} from "@/functions/interfaces";
-import {ref} from "vue";
+import {Ref, ref} from "vue";
+import {CalendarContext} from "v-calendar/dist/types/src/use/calendar";
 
 let refs = {
   modalNewEvent: ref(null),
@@ -109,7 +110,8 @@ export default {
       events: [],
       calendarConfig: [] as any[],
       currentEvents: [] as DuleEvent[],
-      refs: refs
+      refs: refs,
+      focusedDay: ''
     }
   },
   mounted () {
@@ -121,8 +123,23 @@ export default {
   },
   methods: {
     openToday() {
-      this.$refs.calendar.move(new Date(), { force: true })
-      this.$refs.calendar.focusDate(new Date())
+      const now = new Date()
+      const calendar = this.$refs.calendar as CalendarContext & any
+      const calendarEl = calendar.$el as HTMLElement
+      calendar.move(now, { force: true })
+      calendar.focusDate(now)
+
+      let month = (now.getMonth() + 1).toString()
+      if (month.length == 1) month = `0${month}`
+      let day = now.getDate().toString()
+      if (day.length == 1) day = `0${day}`
+
+      const selector = `.vc-day.id-${now.getFullYear()}-${month}-${day}.day-${day} .vc-day-content`
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore - parentElement will never be null here
+      const dayElement = calendarEl.parentElement.querySelector(selector) as HTMLButtonElement
+      dayElement.click()
     },
     async fetchEvents() {
       const url = import.meta.env.VITE_API_URL + '/events'
@@ -157,8 +174,10 @@ export default {
           event.displayStartsAt = event.startsAt.slice(0, 16).replaceAll('-', '/').replace('T', ' ')
           event.displayEndsAt = event.endsAt.slice(0, 16).replaceAll('-', '/').replace('T', ' ')
           this.currentEvents.push(event)
+
         })
       }
+      this.focusedDay = `the ${day.id}`
     }
   }
 }
