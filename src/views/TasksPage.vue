@@ -58,6 +58,7 @@ import NewTaskModal from "@/components/NewTaskModal.vue";
 import {get, del, patch} from "@/functions/fetch/tools";
 import {DuleTask, DuleTasklist} from "@/functions/interfaces";
 import {ref} from "vue";
+import {changedVibration} from "@/functions/native/tools";
 
 let refs = {
   modalNewTask: ref(null),
@@ -113,6 +114,7 @@ export default {
       task.checked = !task.checked
       await patch(url, task)
       await this.fetchTasks()
+      await changedVibration()
     },
     async fetchTasklist() {
       const url = import.meta.env.VITE_API_URL + '/tasks/lists'
