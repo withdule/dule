@@ -41,8 +41,6 @@ import { XCircle, MoonStar, Frame } from "lucide-vue-next";
 
 <script lang="ts">
 import { closeModals } from "@/functions/modals";
-import { patch } from "@/functions/fetch/tools";
-import {ref} from "vue";
 
 export default {
   methods: {

@@ -89,7 +89,7 @@ import EditEventModal from "@/components/EditEventModal.vue";
 import {get} from "@/functions/fetch/tools";
 import {CalendarDay} from "v-calendar/dist/types/src/utils/page";
 import {DuleEvent} from "@/functions/interfaces";
-import {Ref, ref} from "vue";
+import {ref} from "vue";
 import {CalendarContext} from "v-calendar/dist/types/src/use/calendar";
 
 let refs = {
