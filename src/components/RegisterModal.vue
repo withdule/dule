@@ -69,7 +69,7 @@ export default {
       }
       const response = await post(url, data)
       localStorage.setItem('userToken', response.token)
-      localStorage.setItem('userCreds', JSON.stringify({
+      localStorage.setItem('userCredentials', JSON.stringify({
         email: this.email,
         password: password
       }))
