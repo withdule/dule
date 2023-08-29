@@ -15,11 +15,11 @@ The application to manage tasks, reminders, events, and notes.
 
 ## Project status
 - [x] Authentication
-- [ ] Events 
+- [x] Events 
+- [x] Notes
+- [x] Tasks
+- [x] Tasklists
 - [ ] Reminders
-- [ ] Notes
-- [ ] Tasks
-- [ ] Tasklists
 
 ## What is Dule ?
 
