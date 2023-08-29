@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import '@/theme/globals.css'
-import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonRefresherContent, IonRefresher} from '@ionic/vue';
+import {IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonRefresherContent, IonRefresher, IonItemDivider} from '@ionic/vue';
 import { Plus, CheckSquare, BoxSelect, Trash2 } from "lucide-vue-next"
 import {createModal} from "@/functions/modals";
 import NewTaskListModal from "@/components/NewTaskListModal.vue";
