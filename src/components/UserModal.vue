@@ -44,8 +44,8 @@
         <CheckSquare slot="start" class="icon-icon ion-color-tertiary"/>
         <ion-label>
           <p>Tasks completed</p>
-          <h2>{{ stats.tasks }} / {{ stats.tasksCompleted }}</h2>
-          <ion-progress-bar :value="stats.tasks / stats.tasksCompleted"></ion-progress-bar>
+          <h2>{{ stats.tasksCompleted }} / {{ stats.tasks }}</h2>
+          <ion-progress-bar :value="stats.tasksCompleted / stats.tasks"></ion-progress-bar>
         </ion-label>
       </ion-item>
       <ion-item>
