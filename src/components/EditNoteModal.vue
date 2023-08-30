@@ -75,7 +75,7 @@ export default {
     preview() {
       this.$refs.preview.innerHTML = marked(this.newContent)
       this.$refs.preview.classList.toggle('hidden')
-      this.$refs.inputContent.classList.toggle('hidden')
+      this.$refs.inputContent.$el.classList.toggle('hidden')
     },
     closeModals
   },
