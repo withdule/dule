@@ -2,15 +2,15 @@ import {Haptics, ImpactStyle} from '@capacitor/haptics';
 
 
 async function vibrate() {
-    await Haptics.impact({ style: ImpactStyle.Light });
+    await Haptics.impact({ style: ImpactStyle.Medium })
 }
 
 async function endVibration() {
-    await Haptics.notification({ type: "SUCCESS" } as any);
+    await Haptics.selectionStart()
 }
 
 async function changedVibration() {
-    await Haptics.notification({ type: "WARNING" } as any);
+    await Haptics.impact({ style: ImpactStyle.Light });
 }
 
 export {
