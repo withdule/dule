@@ -46,7 +46,6 @@ export default {
   methods: {
     closeModals,
     changeTheme(theme: string) {
-      console.log(theme)
       localStorage.setItem('userAppearance', theme)
     },
     isDarkTheme() {
