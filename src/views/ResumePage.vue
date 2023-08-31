@@ -6,6 +6,9 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" v-if="loggedIn">
+      <ion-refresher slot="fixed" @ionRefresh="refresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
       <ion-list inset>
         <ion-item>
           <DuleFaceIconDark v-if="darkTheme" slot="start" />
@@ -31,7 +34,7 @@
               <p>{{ event.label }}</p>
               <h2>{{ event.name }}</h2>
             </ion-label>
-            <Trash2 v-if="event.isReminder" slot="end" class="ion-color-danger focusable" @click="deleteReminder(event.id)" />
+            <Trash2 v-if="event.isReminder" slot="end" class="ion-color-danger focusable" @click="removeReminder(event.id)" />
           </ion-item>
         </ion-list>
       </div>
@@ -180,7 +183,19 @@
 
 <script setup lang="ts">
 import '@/theme/globals.css'
-import { IonPage, IonHeader, IonToolbar, IonContent, IonTitle, IonList, IonLabel, IonButton, IonProgressBar, IonItem } from '@ionic/vue';
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonContent,
+  IonTitle,
+  IonList,
+  IonLabel,
+  IonButton,
+  IonProgressBar,
+  IonItem,
+  IonRefresherContent, IonRefresher
+} from '@ionic/vue';
 import { MoreVertical, AlertTriangle, LogIn, UserPlus, ClipboardList, CalendarPlus, AlarmPlus, Glasses, ListPlus, PenLine, CalendarClock, AlarmClock, CheckCircle2, Info, Github, StickyNote, Trash2 } from "lucide-vue-next";
 import LoginModal from "@/components/LoginModal.vue";
 import RegisterModal from "@/components/RegisterModal.vue";
@@ -193,7 +208,7 @@ import NewTaskModal from "@/components/NewTaskModal.vue";
 import NewTaskListModal from "@/components/NewTaskListModal.vue";
 import UserModal from "@/components/UserModal.vue";
 import DuleFaceIconDark from "@/components/DuleFaceIconDark.vue";
-import {deleteReminder} from "@/functions/reminders";
+import {refresh} from "@/functions/refresher";
 </script>
 
 <script lang="ts">
@@ -296,6 +311,7 @@ export default {
           const minutes = Math.ceil(Math.abs(ringsAt - now) / 60000)
           reminder.label = `in ${hours < 1 ? minutes: hours} ${hours < 1 ? 'minutes': 'hours'}`
           reminder.startsAt = reminder.ringsAt as string
+          reminder.id = key
           incomingEventsParsed.push(reminder)
         }
         incomingEventsParsed.sort((a, b) => {
@@ -311,6 +327,10 @@ export default {
     },
     isDarkTheme() {
       return localStorage.getItem('userAppearance') === 'dark'
+    },
+    async removeReminder(uid: string) {
+      await deleteReminder(uid)
+      window.dispatchEvent(new Event('reload'))
     },
     createModal
   },

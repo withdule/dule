@@ -34,8 +34,8 @@ async function deleteReminder(uid: string) {
                 }
             ]
         })
+        saveReminders(reminders)
     }
-    saveReminders(reminders)
 }
 
 async function addReminder(ringsAt: Date | string, name: string) {
