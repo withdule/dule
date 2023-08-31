@@ -273,7 +273,7 @@ export default {
         const now = new Date()
         for (const event of incomingEvents) {
           const eventStart = new Date(event.startsAt)
-          const hours = Math.ceil(Math.abs(eventStart - now) / 36e5)
+          const hours = Math.floor(Math.abs(eventStart - now) / 36e5)
           const minutes = Math.ceil(Math.abs(eventStart - now) / 60000)
           event.label = `in ${hours < 1 ? minutes: hours} ${hours < 1 ? 'minutes': 'hours'}`
           incomingEventsParsed.push(event)
