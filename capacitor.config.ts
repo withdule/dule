@@ -12,6 +12,11 @@ const config: CapacitorConfig = {
       "splashImmersive": false,
       "backgroundColor": "#EBF8EF"
     },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_notify",
+      "iconColor": "#EBF8EF",
+      "sound": "/public/tone.ogg"
+    }
   },
   server: {
     androidScheme: 'https'

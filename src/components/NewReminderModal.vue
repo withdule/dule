@@ -28,10 +28,10 @@
         </ion-item>
       </ion-list>
       <ion-modal :keep-contents-mounted="true">
-        <ion-datetime mode="ios" :value="date" @ionChange="date = $event.detail.value" :hour-values="minStartsDateHoursSelection" :minute-values="minStartsDateMinutesSelection" id="datetime-start"></ion-datetime>
+        <ion-datetime mode="ios" :value="date" @ionChange="date = $event.detail.value" id="datetime-start"></ion-datetime>
       </ion-modal>
 
-      <ion-button expand="full" type="button" @click="addReminder()">Add</ion-button>
+      <ion-button expand="full" type="button" @click="addNewReminder()">Add</ion-button>
 
     </form>
 
@@ -39,21 +39,17 @@
 </template>
 
 <script setup lang="ts">
-import { IonTitle, IonDatetimeButton } from "@ionic/vue";
+import { IonTitle, IonDatetimeButton, IonDatetime } from "@ionic/vue";
 import { XCircle } from "lucide-vue-next";
 </script>
 
 <script lang="ts">
 import { closeModals } from "@/functions/modals"
 import { IonDatetime } from "@ionic/vue"
+import {addReminder} from "@/functions/reminders";
 
 const minStartDate = new Date()
 
-const minutesSelection = Array.from(Array(60).keys())
-const minStartsDateMinutesSelection = minutesSelection.slice(minStartDate.getMinutes(), minutesSelection.length)
-
-const hoursSelection = Array.from(Array(24).keys())
-const minStartsDateHoursSelection = hoursSelection.slice(minStartDate.getHours(), hoursSelection.length)
 
 
 export default {
@@ -61,14 +57,13 @@ export default {
     return {
       name: "",
       date: new Date().toISOString(),
-      minStartDate: minStartDate,
-      minStartsDateMinutesSelection: minStartsDateMinutesSelection,
-      minStartsDateHoursSelection: minStartsDateHoursSelection,
+      minStartDate: minStartDate
     }
   },
   methods: {
-    addReminder () {
-      console.log(this.name, this.date)
+    addNewReminder () {
+      addReminder(this.date, this.name)
+      closeModals()
     },
     closeModals
   },

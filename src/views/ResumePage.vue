@@ -6,6 +6,9 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true" v-if="loggedIn">
+      <ion-refresher slot="fixed" @ionRefresh="refresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
       <ion-list inset>
         <ion-item>
           <DuleFaceIconDark v-if="darkTheme" slot="start" />
@@ -31,6 +34,7 @@
               <p>{{ event.label }}</p>
               <h2>{{ event.name }}</h2>
             </ion-label>
+            <Trash2 v-if="event.isReminder" slot="end" class="ion-color-danger focusable" @click="removeReminder(event.id)" />
           </ion-item>
         </ion-list>
       </div>
@@ -179,8 +183,20 @@
 
 <script setup lang="ts">
 import '@/theme/globals.css'
-import { IonPage, IonHeader, IonToolbar, IonContent, IonTitle, IonList, IonLabel, IonButton, IonProgressBar, IonItem } from '@ionic/vue';
-import { MoreVertical, AlertTriangle, LogIn, UserPlus, ClipboardList, CalendarPlus, AlarmPlus, Glasses, ListPlus, PenLine, CalendarClock, AlarmClock, CheckCircle2, Info, Github, StickyNote } from "lucide-vue-next";
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonContent,
+  IonTitle,
+  IonList,
+  IonLabel,
+  IonButton,
+  IonProgressBar,
+  IonItem,
+  IonRefresherContent, IonRefresher
+} from '@ionic/vue';
+import { MoreVertical, AlertTriangle, LogIn, UserPlus, ClipboardList, CalendarPlus, AlarmPlus, Glasses, ListPlus, PenLine, CalendarClock, AlarmClock, CheckCircle2, Info, Github, StickyNote, Trash2 } from "lucide-vue-next";
 import LoginModal from "@/components/LoginModal.vue";
 import RegisterModal from "@/components/RegisterModal.vue";
 import DuleFaceIcon from "@/components/DuleFaceIcon.vue";
@@ -192,6 +208,7 @@ import NewTaskModal from "@/components/NewTaskModal.vue";
 import NewTaskListModal from "@/components/NewTaskListModal.vue";
 import UserModal from "@/components/UserModal.vue";
 import DuleFaceIconDark from "@/components/DuleFaceIconDark.vue";
+import {refresh} from "@/functions/refresher";
 </script>
 
 <script lang="ts">
@@ -199,7 +216,8 @@ import { ref } from "vue";
 import { createModal } from "@/functions/modals";
 import {getAccount} from "@/functions/fetch/account";
 import {get} from "@/functions/fetch/tools";
-import {DuleEvent, DuleRecentActivityItem, DuleTasklist} from "@/functions/interfaces";
+import {DuleEvent, DuleIncomingEventItem, DuleRecentActivityItem, DuleTasklist, Reminder} from "@/functions/interfaces";
+import {deleteReminder, getReminders} from "@/functions/reminders";
 
 let refs = {
   modalLogin: ref(null),
@@ -217,7 +235,7 @@ window.addEventListener('closeModals', () => {
   Object.keys(refs).forEach(key => {
     if (refs[key].value) refs[key].value.dismiss()
   })
-  window.dispatchEvent(new Event('reloadUser'))
+  window.dispatchEvent(new Event('reload'))
 })
 
 export default {
@@ -232,20 +250,18 @@ export default {
         createdAt: ""
       },
       userTasklist: [],
-      incomingEvents: [] as DuleEvent[],
+      incomingEvents: [] as DuleIncomingEventItem[],
       recentActivity: [] as DuleRecentActivityItem[]
     }
   },
   mounted() {
-    window.addEventListener('reloadUser', this.refreshAccount)
+    window.addEventListener('reload', () => {
+      this.refreshAccount()
+    })
     refs['page'] = this.$refs.page
     if (localStorage.getItem('userToken') && localStorage.getItem('userCredentials')) {
       this.loggedIn = true
-      getAccount().then(user => this.user = user)
-      this.fetchTasklist()
-      this.fetchIncomingEvents()
-      this.fetchRecentActivity()
-      this.darkTheme = this.isDarkTheme()
+      this.refreshAccount()
     }
   },
   methods: {
@@ -257,6 +273,9 @@ export default {
     },
     refreshAccount() {
       getAccount().then(user => this.user = user)
+      this.fetchTasklist()
+      this.fetchIncomingEvents()
+      this.fetchRecentActivity()
       this.darkTheme = this.isDarkTheme()
     },
     async fetchTasklist() {
@@ -270,6 +289,7 @@ export default {
       const url = import.meta.env.VITE_API_URL + '/activity/incoming'
       const response = await get(url)
       const incomingEventsParsed = []
+      const incomingReminders = getReminders()
       if (response) {
         const incomingEvents = response.data
         const now = new Date()
@@ -280,6 +300,23 @@ export default {
           event.label = `in ${hours < 1 ? minutes: hours} ${hours < 1 ? 'minutes': 'hours'}`
           incomingEventsParsed.push(event)
         }
+        for (const key of Object.keys(incomingReminders)) {
+          const reminder = incomingReminders[key] as Reminder & DuleIncomingEventItem & DuleEvent
+          const ringsAt = new Date(reminder.ringsAt)
+          if (ringsAt < now) {
+            await deleteReminder(key)
+            continue
+          }
+          const hours = Math.floor(Math.abs(ringsAt - now) / 36e5)
+          const minutes = Math.ceil(Math.abs(ringsAt - now) / 60000)
+          reminder.label = `in ${hours < 1 ? minutes: hours} ${hours < 1 ? 'minutes': 'hours'}`
+          reminder.startsAt = reminder.ringsAt as string
+          reminder.id = key
+          incomingEventsParsed.push(reminder)
+        }
+        incomingEventsParsed.sort((a, b) => {
+          return a.startsAt > b.startsAt ? 1 : -1
+        })
         this.incomingEvents = incomingEventsParsed
       }
     },
@@ -290,6 +327,10 @@ export default {
     },
     isDarkTheme() {
       return localStorage.getItem('userAppearance') === 'dark'
+    },
+    async removeReminder(uid: string) {
+      await deleteReminder(uid)
+      window.dispatchEvent(new Event('reload'))
     },
     createModal
   },
