@@ -40,10 +40,31 @@ interface DuleRecentActivityItem {
     isTasklist: boolean
 }
 
+interface DuleIncomingEventItem {
+    name: string
+    label: string
+    id: string
+    isReminder: boolean
+}
+
+interface Reminder {
+    ringsAt: Date | string
+    isReminder: boolean
+    name: string
+    notificationDescriptor: number
+}
+
+interface Reminders {
+    [key: string]: Reminder
+}
+
 export type {
     DuleEvent,
     DuleNote,
     DuleTask,
     DuleTasklist,
-    DuleRecentActivityItem
+    DuleRecentActivityItem,
+    DuleIncomingEventItem,
+    Reminder,
+    Reminders
 }
