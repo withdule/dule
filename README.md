@@ -19,7 +19,7 @@ The application to manage tasks, reminders, events, and notes.
 - [x] Notes
 - [x] Tasks
 - [x] Tasklists
-- [ ] Reminders
+- [x] Reminders
 
 ## What is Dule ?
 
