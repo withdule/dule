@@ -19,48 +19,48 @@
           </ion-button>
         </ion-item>
       </ion-list>
-      <div class="list-title">
-        Incoming
+      <div v-if="incomingEvents.length > 0">
+        <div class="list-title">
+          Incoming
+        </div>
+        <ion-list inset>
+          <ion-item v-for="event in incomingEvents">
+            <AlarmClock v-if="event.isReminder" slot="start" class="icon-icon ion-color-danger"/>
+            <CalendarClock v-else slot="start" class="icon-icon ion-color-danger"/>
+            <ion-label>
+              <p>{{ event.label }}</p>
+              <h2>{{ event.name }}</h2>
+            </ion-label>
+          </ion-item>
+        </ion-list>
       </div>
-      <ion-list inset>
-        <ion-item v-for="event in incomingEvents">
-          <AlarmClock v-if="event.isReminder" slot="start" class="icon-icon ion-color-danger"/>
-          <CalendarClock v-else slot="start" class="icon-icon ion-color-danger"/>
-          <ion-label>
-            <p>{{ event.label }}</p>
-            <h2>{{ event.name }}</h2>
-          </ion-label>
-        </ion-item>
-      </ion-list>
 
-      <div class="list-title">
-        Recently edited
+      <div v-if="recentActivity.length > 0">
+        <div class="list-title">
+          Recently edited
+        </div>
+        <ion-list inset>
+          <div v-for="item in recentActivity">
+            <ion-item button v-if="item.isTasklist" @click="goTo('/dash/tasks')">
+              <ClipboardList v-if="item.tasksCompleted / item.tasks < 0.5" slot="start" class="icon-icon ion-color-warning"/>
+              <ClipboardList v-else slot="start" class="icon-icon ion-color-tertiary"/>
+              <ion-label>
+                <p>{{ item.name }}</p>
+                <h2>{{ item.tasksCompleted }} / {{ item.tasks }}</h2>
+                <ion-progress-bar v-if="item.tasksCompleted / item.tasks < 0.5" color="secondary" :value="item.tasksCompleted / item.tasks"></ion-progress-bar>
+                <ion-progress-bar v-else color="tertiary" :value="item.tasksCompleted / item.tasks"></ion-progress-bar>
+              </ion-label>
+            </ion-item>
+            <ion-item button v-else @click="goTo('/dash/notes')">
+              <StickyNote slot="start" class="icon-icon"/>
+              <ion-label>
+                <p>Note</p>
+                <h2>{{ item.name }}</h2>
+              </ion-label>
+            </ion-item>
+          </div>
+        </ion-list>
       </div>
-      <ion-list inset>
-        <ion-item button>
-          <ClipboardList slot="start" class="icon-icon ion-color-tertiary"/>
-          <ion-label>
-            <p>Tasks</p>
-            <h2>1 / 2</h2>
-            <ion-progress-bar color="tertiary" :value="1 / 2"></ion-progress-bar>
-          </ion-label>
-        </ion-item>
-        <ion-item button>
-          <ClipboardList slot="start" class="icon-icon ion-color-warning"/>
-          <ion-label>
-            <p>Release Dule</p>
-            <h2>0 / 2</h2>
-            <ion-progress-bar color="warning" :value="0 / 2"></ion-progress-bar>
-          </ion-label>
-        </ion-item>
-        <ion-item button>
-          <StickyNote slot="start" class="icon-icon"/>
-          <ion-label>
-            <p>Note</p>
-            <h2>Films to watch</h2>
-          </ion-label>
-        </ion-item>
-      </ion-list>
 
       <div class="list-title">
         Schedule
@@ -199,7 +199,7 @@ import { ref } from "vue";
 import { createModal } from "@/functions/modals";
 import {getAccount} from "@/functions/fetch/account";
 import {get} from "@/functions/fetch/tools";
-import {DuleEvent, DuleTasklist} from "@/functions/interfaces";
+import {DuleEvent, DuleRecentActivityItem, DuleTasklist} from "@/functions/interfaces";
 
 let refs = {
   modalLogin: ref(null),
@@ -232,7 +232,8 @@ export default {
         createdAt: ""
       },
       userTasklist: [],
-      incomingEvents: [] as DuleEvent[]
+      incomingEvents: [] as DuleEvent[],
+      recentActivity: [] as DuleRecentActivityItem[]
     }
   },
   mounted() {
@@ -243,6 +244,7 @@ export default {
       getAccount().then(user => this.user = user)
       this.fetchTasklist()
       this.fetchIncomingEvents()
+      this.fetchRecentActivity()
       this.darkTheme = this.isDarkTheme()
     }
   },
@@ -280,6 +282,11 @@ export default {
         }
         this.incomingEvents = incomingEventsParsed
       }
+    },
+    async fetchRecentActivity() {
+      const url = import.meta.env.VITE_API_URL + '/activity/recent'
+      const response = await get(url)
+      this.recentActivity = response.data
     },
     isDarkTheme() {
       return localStorage.getItem('userAppearance') === 'dark'

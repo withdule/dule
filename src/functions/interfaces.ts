@@ -33,9 +33,17 @@ interface DuleTasklist {
     _id?: string
 }
 
+interface DuleRecentActivityItem {
+    name: string,
+    tasks: number
+    tasksCompleted: number,
+    isTasklist: boolean
+}
+
 export type {
     DuleEvent,
     DuleNote,
     DuleTask,
-    DuleTasklist
+    DuleTasklist,
+    DuleRecentActivityItem
 }
