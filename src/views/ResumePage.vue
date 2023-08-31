@@ -20,21 +20,15 @@
         </ion-item>
       </ion-list>
       <div class="list-title">
-        Today
+        Incoming
       </div>
       <ion-list inset>
-        <ion-item>
-          <CalendarClock slot="start" class="icon-icon ion-color-danger"/>
+        <ion-item v-for="event in incomingEvents">
+          <AlarmClock v-if="event.isReminder" slot="start" class="icon-icon ion-color-danger"/>
+          <CalendarClock v-else slot="start" class="icon-icon ion-color-danger"/>
           <ion-label>
-            <p>in 2 hours</p>
-            <h2>Meeting with contributors</h2>
-          </ion-label>
-        </ion-item>
-        <ion-item>
-          <AlarmClock slot="start" class="icon-icon ion-color-danger"/>
-          <ion-label>
-            <p>in 3 hours</p>
-            <h2>Turn on washing machine</h2>
+            <p>{{ event.label }}</p>
+            <h2>{{ event.name }}</h2>
           </ion-label>
         </ion-item>
       </ion-list>
@@ -205,7 +199,7 @@ import { ref } from "vue";
 import { createModal } from "@/functions/modals";
 import {getAccount} from "@/functions/fetch/account";
 import {get} from "@/functions/fetch/tools";
-import {DuleTasklist} from "@/functions/interfaces";
+import {DuleEvent, DuleTasklist} from "@/functions/interfaces";
 
 let refs = {
   modalLogin: ref(null),
@@ -237,7 +231,8 @@ export default {
         email: "",
         createdAt: ""
       },
-      userTasklist: []
+      userTasklist: [],
+      incomingEvents: [] as DuleEvent[]
     }
   },
   mounted() {
@@ -247,6 +242,7 @@ export default {
       this.loggedIn = true
       getAccount().then(user => this.user = user)
       this.fetchTasklist()
+      this.fetchIncomingEvents()
       this.darkTheme = this.isDarkTheme()
     }
   },
@@ -266,6 +262,23 @@ export default {
       const userTasklist = await get(url) as any & DuleTasklist[]
       if (userTasklist) {
         this.userTasklist = userTasklist.data
+      }
+    },
+    async fetchIncomingEvents() {
+      const url = import.meta.env.VITE_API_URL + '/activity/incoming'
+      const response = await get(url)
+      const incomingEventsParsed = []
+      if (response) {
+        const incomingEvents = response.data
+        const now = new Date()
+        for (const event of incomingEvents) {
+          const eventStart = new Date(event.startsAt)
+          const hours = Math.ceil(Math.abs(eventStart - now) / 36e5)
+          const minutes = Math.ceil(Math.abs(eventStart - now) / 60000)
+          event.label = `in ${hours < 1 ? minutes: hours} ${hours < 1 ? 'minutes': 'hours'}`
+          incomingEventsParsed.push(event)
+        }
+        this.incomingEvents = incomingEventsParsed
       }
     },
     isDarkTheme() {
