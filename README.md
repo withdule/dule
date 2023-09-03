@@ -7,7 +7,7 @@
 <img alt="Dule icon" src=".github/icon.png" height="200"/>
 
 # Dule
-[withdule.camarm.fr](https://withdule.camarm.fr)
+[withdule.camarm.fr](https://withdule.camarm.fr) • [Download](https://github.com/withdule/dule/raw/master/builds/dule.apk)
 
 The application to manage tasks, reminders, events, and notes.
 
