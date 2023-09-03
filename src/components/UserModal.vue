@@ -63,6 +63,9 @@
         </ion-label>
       </ion-item>
     </ion-list>
+    <ion-note style="display: block; width: max-content; margin: auto" v-if="isMobile">
+      Using {{ app.name }} version {{ app.version }}, build {{ app.build }}
+    </ion-note>
   </ion-content>
 </template>
 
@@ -81,6 +84,9 @@ import {getAccount, logOut} from "@/functions/fetch/account";
 import {ref} from "vue";
 import {get} from "@/functions/fetch/tools";
 import {APIResponse} from "@/functions/fetch/interfaces";
+import {Device} from "@capacitor/device";
+import {App} from "@capacitor/app";
+import {AppInfo} from "@capacitor/app/dist/esm/definitions";
 
 let refs = {
   modalSettings: ref(null)
@@ -107,7 +113,9 @@ export default {
         tasksCompleted: 0
       } as any & APIResponse,
       refs: refs,
-      darkTheme: false
+      darkTheme: false,
+      app: {} as AppInfo,
+      isMobile: false
     }
   },
   mounted () {
@@ -117,6 +125,8 @@ export default {
     getAccount().then(user => this.user = user)
     this.darkTheme = this.isDarkTheme()
     this.fetchStats()
+    this.getAppInfo()
+    this.getIsMobile()
   },
   methods: {
     closeModals,
@@ -131,6 +141,12 @@ export default {
       const url = import.meta.env.VITE_API_URL + '/me/stats'
       const response = await get(url)
       this.stats = response.data
+    },
+    async getIsMobile() {
+      this.isMobile = ['ios', 'android'].includes((await Device.getInfo()).platform)
+    },
+    async getAppInfo() {
+      this.app = await App.getInfo()
     }
   }
 }
