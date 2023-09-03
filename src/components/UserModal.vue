@@ -18,7 +18,7 @@
           <h2><span>{{ user.fullname }}</span></h2>
           <p>{{ user.email }}</p>
         </ion-label>
-        <Cog slot="end" @click="createModal(SettingsModal, 'modalSettings', refs, { email: user.email, fullname: user.fullname })"/>
+        <Cog class="focusable" slot="end" @click="createModal(SettingsModal, 'modalSettings', refs, { email: user.email, fullname: user.fullname })"/>
       </ion-item>
       <ion-item>
         <ion-label slot="start">
@@ -86,7 +86,7 @@ let refs = {
   modalSettings: ref(null)
 } as any
 
-window.addEventListener('closeModals', () => {
+window.addEventListener('closeModalsDeep1', () => {
   Object.keys(refs).forEach(key => {
     if (refs[key].value) refs[key].value.dismiss()
   })

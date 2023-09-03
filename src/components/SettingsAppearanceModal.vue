@@ -3,7 +3,7 @@
     <ion-toolbar>
       <ion-title>Appearance</ion-title>
       <ion-buttons slot="end">
-        <ion-button color="medium" @click="closeModals()">
+        <ion-button color="medium" @click="closeModal()">
           <XCircle/>
         </ion-button>
       </ion-buttons>
@@ -40,11 +40,12 @@ import { XCircle, MoonStar, Frame } from "lucide-vue-next";
 </script>
 
 <script lang="ts">
-import { closeModals } from "@/functions/modals";
 
 export default {
   methods: {
-    closeModals,
+    closeModal() {
+      window.dispatchEvent(new Event('closeModalsDeep2'))
+    },
     changeTheme(theme: string) {
       localStorage.setItem('userAppearance', theme)
     },

@@ -3,7 +3,7 @@
     <ion-toolbar>
       <ion-title>Edit account</ion-title>
       <ion-buttons slot="end">
-        <ion-button color="medium" @click="closeModals()">
+        <ion-button color="medium" @click="closeModal()">
           <XCircle/>
         </ion-button>
       </ion-buttons>
@@ -38,7 +38,6 @@ import { XCircle } from "lucide-vue-next";
 </script>
 
 <script lang="ts">
-import { closeModals } from "@/functions/modals";
 import { patch } from "@/functions/fetch/tools";
 
 
@@ -66,9 +65,11 @@ export default {
       localStorage.removeItem('userToken')
       localStorage.setItem('userCredentials', JSON.stringify(creds))
 
-      closeModals()
+      this.closeModal()
     },
-    closeModals
+    closeModal() {
+      window.dispatchEvent(new Event('closeModalsDeep2'))
+    }
   }
 }
 </script>

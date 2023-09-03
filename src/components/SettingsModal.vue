@@ -3,7 +3,7 @@
     <ion-toolbar>
       <ion-title>Settings</ion-title>
       <ion-buttons slot="end">
-        <ion-button color="medium" @click="closeModals()">
+        <ion-button color="medium" @click="closeModal()">
           <XCircle/>
         </ion-button>
       </ion-buttons>
@@ -47,16 +47,15 @@ import SettingsAppearanceModal from "@/components/SettingsAppearanceModal.vue";
 </script>
 
 <script lang="ts">
-import { closeModals } from "@/functions/modals";
 import {ref} from "vue";
 
 
 let refs = {
   modalSettingsAppearance: ref(null),
   modalEditAccount: ref(null)
-}
+} as any
 
-window.addEventListener('closeModals', () => {
+window.addEventListener('closeModalsDeep2', () => {
   Object.keys(refs).forEach(key => {
     if (refs[key].value) refs[key].value.dismiss()
   })
@@ -76,7 +75,9 @@ export default {
     }
   },
   methods: {
-    closeModals
+    closeModal() {
+      window.dispatchEvent(new Event('closeModalsDeep1'))
+    }
   }
 }
 </script>
