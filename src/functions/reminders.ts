@@ -4,6 +4,37 @@ import {Reminder, Reminders} from "@/functions/interfaces";
 
 const Notifications = LocalNotifications
 
+async function setupActions() {
+    await Notifications.registerActionTypes({
+        types: [
+            {
+                id: 'repeat',
+                actions:[
+                    {
+                        id: 'repeat-5-minutes',
+                        title: 'Remind me in 5 minutes'
+                    },
+                    {
+                        id: 'repeat-15-minutes',
+                        title: 'Remind me in 15 minutes'
+                    }
+                ]
+            }
+        ]
+    })
+    Notifications.addListener('localNotificationActionPerformed', (action) => {
+        let date
+        if (action.actionId == 'repeat-5-minutes') {
+            date = new Date()
+            date.setMinutes(date.getMinutes() + 5, 0, 0)
+        } else {
+            date = new Date()
+            date.setMinutes(date.getMinutes() + 15, 0, 0)
+        }
+        addReminder(date, `${action.notification.extra.name} (+${date.getMinutes()}min)`)
+    })
+}
+
 async function hasPermission() {
     return (await Notifications.checkPermissions()).display == 'granted'
 }
@@ -11,6 +42,8 @@ async function hasPermission() {
 async function checkAndAskPermission() {
     if (!await hasPermission()) {
         await Notifications.requestPermissions()
+    } else {
+        await setupActions()
     }
 }
 
@@ -43,13 +76,22 @@ async function addReminder(ringsAt: Date | string, name: string) {
     if (await hasPermission()) {
         const reminders = getReminders()
         const uid = `id${new Date().getTime()}`
+        const ringsAtDate = new Date(ringsAt)
+        const hours = `${ringsAtDate.getHours().toString().length == 1 ? '0': ''}${ringsAtDate.getHours().toString()}`
+        const minutes = `${ringsAtDate.getMinutes().toString().length == 1 ? '0': ''}${ringsAtDate.getMinutes().toString()}`
         const notificationDescriptor = (await Notifications.schedule({
             notifications: [
                 {
-                    title: `Reminder '${name}'`,
-                    body: `You have set the reminder '${name}' for ${ringsAt}`,
+                    title: `${name}`,
+                    body: `It's time ! '${name}'`,
+                    largeBody: `You have set the reminder '${name}' for ${hours}:${minutes}`,
+                    sound: '/public/tone.ogg',
+                    smallIcon: 'ic_stat_notify',
+                    largeIcon: 'ic_stat_notify',
+                    actionTypeId: 'repeat',
                     extra: {
-                        id: uid
+                        id: uid,
+                        name: name
                     },
                     id: Math.random(),
                     schedule: {
