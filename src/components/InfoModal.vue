@@ -49,6 +49,18 @@
         </ion-label>
       </ion-item>
     </ion-list>
+
+    <div class="list-title">
+      Legal
+    </div>
+    <ion-list inset>
+      <ion-item>
+        <p>
+          Dule is a free and open source software under MIT Licence.<br>
+          See <a href="https://github.com/withdule/dule/blob/main/LEGAL.md" target="_blank">legal notice</a>, <a href="https://github.com/withdule/dule/blob/main/LICENSE" target="_blank">licence</a>.
+        </p>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </template>
 
