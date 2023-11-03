@@ -67,7 +67,7 @@
       </div>
 
       <div class="list-title">
-        Schedule
+        Shortcuts
       </div>
       <ion-list inset>
         <ion-item button @click="createModal(NewEventModal, 'modalNewEvent', refs)">
@@ -84,32 +84,6 @@
             <h2>Create a reminder</h2>
           </ion-label>
         </ion-item>
-      </ion-list>
-
-      <div class="list-title">
-        Note
-      </div>
-      <ion-list inset>
-        <ion-item button @click="createModal(NewNoteModal, 'modalNewNote', refs)">
-          <PenLine slot="start" class="icon-icon"/>
-          <ion-label>
-            <p>Start writing</p>
-            <h2>Create an new note</h2>
-          </ion-label>
-        </ion-item>
-        <ion-item button @click="goTo('/dash/notes')">
-          <Glasses slot="start" class="icon-icon"/>
-          <ion-label>
-            <p>Read</p>
-            <h2>View notes</h2>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-
-      <div class="list-title">
-        Tasks
-      </div>
-      <ion-list inset>
         <ion-item button @click="createModal(NewTaskModal, 'modalNewTask', refs, { userTasklist })">
           <CheckCircle2 slot="start" class="icon-icon"/>
           <ion-label>
@@ -117,18 +91,11 @@
             <h2>Write a new task</h2>
           </ion-label>
         </ion-item>
-        <ion-item button @click="createModal(NewTaskListModal, 'modalNewTasklist', refs)">
-          <ListPlus slot="start" class="icon-icon"/>
+        <ion-item button @click="createModal(NewNoteModal, 'modalNewNote', refs)">
+          <PenLine slot="start" class="icon-icon"/>
           <ion-label>
-            <p>Start a new objective</p>
-            <h2>Create a new tasklist</h2>
-          </ion-label>
-        </ion-item>
-        <ion-item button @click="goTo('/dash/tasks')">
-          <Glasses slot="start" class="icon-icon"/>
-          <ion-label>
-            <p>Work</p>
-            <h2>View tasklists</h2>
+            <p>Start writing</p>
+            <h2>Create an new note</h2>
           </ion-label>
         </ion-item>
       </ion-list>

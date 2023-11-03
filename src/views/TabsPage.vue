@@ -5,22 +5,22 @@
       <ion-tab-bar v-if="loggedIn" slot="bottom">
         <ion-tab-button tab="home" href="/dash/resume">
           <ResumeIcon class="icon"/>
-          <ion-label>Resume</ion-label>
+<!--          <ion-label>Resume</ion-label>-->
         </ion-tab-button>
 
         <ion-tab-button tab="events" href="/dash/events">
           <CalendarIcon class="icon"/>
-          <ion-label>Events</ion-label>
+<!--          <ion-label>Events</ion-label>-->
         </ion-tab-button>
 
         <ion-tab-button tab="tasks" href="/dash/tasks">
           <TasksIcon class="icon"/>
-          <ion-label>Tasks</ion-label>
+<!--          <ion-label>Tasks</ion-label>-->
         </ion-tab-button>
 
         <ion-tab-button tab="notes" href="/dash/notes">
           <NotesIcon class="icon"/>
-          <ion-label>Notes</ion-label>
+<!--          <ion-label>Notes</ion-label>-->
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
